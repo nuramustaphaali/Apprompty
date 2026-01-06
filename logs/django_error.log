@@ -188,3 +188,183 @@ Traceback (most recent call last):
     raise TemplateDoesNotExist(template_name, chain=chain)
 django.template.exceptions.TemplateDoesNotExist: projects/blueprint.html
 ERROR 2026-01-06 03:00:06,067 log "GET /projects/20576020-8959-4e2c-979c-7a69299c76c4/blueprint/ HTTP/1.1" 500 93610
+ERROR 2026-01-06 04:54:09,925 log Internal Server Error: /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\projects\views.py", line 257, in get_task_help
+    data = json.loads(request.body)
+           ^^^^
+NameError: name 'json' is not defined. Did you forget to import 'json'?
+ERROR 2026-01-06 04:54:09,978 log "POST /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/ HTTP/1.1" 500 80940
+ERROR 2026-01-06 04:54:13,850 log Internal Server Error: /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\projects\views.py", line 257, in get_task_help
+    data = json.loads(request.body)
+           ^^^^
+NameError: name 'json' is not defined. Did you forget to import 'json'?
+ERROR 2026-01-06 04:54:13,862 log "POST /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/ HTTP/1.1" 500 80940
+ERROR 2026-01-06 04:54:18,974 log Internal Server Error: /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\projects\views.py", line 257, in get_task_help
+    data = json.loads(request.body)
+           ^^^^
+NameError: name 'json' is not defined. Did you forget to import 'json'?
+ERROR 2026-01-06 04:54:18,981 log "POST /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/ HTTP/1.1" 500 80940
+ERROR 2026-01-06 04:54:26,395 log Internal Server Error: /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\projects\views.py", line 257, in get_task_help
+    data = json.loads(request.body)
+           ^^^^
+NameError: name 'json' is not defined. Did you forget to import 'json'?
+ERROR 2026-01-06 04:54:26,411 log "POST /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/ HTTP/1.1" 500 80940
+ERROR 2026-01-06 04:54:27,755 log Internal Server Error: /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\projects\views.py", line 257, in get_task_help
+    data = json.loads(request.body)
+           ^^^^
+NameError: name 'json' is not defined. Did you forget to import 'json'?
+ERROR 2026-01-06 04:54:27,797 log "POST /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/ HTTP/1.1" 500 80940
+ERROR 2026-01-06 04:54:28,736 log Internal Server Error: /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\projects\views.py", line 257, in get_task_help
+    data = json.loads(request.body)
+           ^^^^
+NameError: name 'json' is not defined. Did you forget to import 'json'?
+ERROR 2026-01-06 04:54:28,743 log "POST /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/ HTTP/1.1" 500 80940
+ERROR 2026-01-06 04:54:30,324 log Internal Server Error: /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\projects\views.py", line 257, in get_task_help
+    data = json.loads(request.body)
+           ^^^^
+NameError: name 'json' is not defined. Did you forget to import 'json'?
+ERROR 2026-01-06 04:54:30,330 log "POST /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/ HTTP/1.1" 500 80940
+ERROR 2026-01-06 04:54:54,685 log Internal Server Error: /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\projects\views.py", line 257, in get_task_help
+    data = json.loads(request.body)
+           ^^^^
+NameError: name 'json' is not defined. Did you forget to import 'json'?
+ERROR 2026-01-06 04:54:54,699 log "POST /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/ HTTP/1.1" 500 80940
+ERROR 2026-01-06 04:54:58,784 log Internal Server Error: /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\projects\views.py", line 257, in get_task_help
+    data = json.loads(request.body)
+           ^^^^
+NameError: name 'json' is not defined. Did you forget to import 'json'?
+ERROR 2026-01-06 04:54:58,798 log "POST /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/ HTTP/1.1" 500 80940
+ERROR 2026-01-06 04:54:59,747 log Internal Server Error: /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\projects\views.py", line 257, in get_task_help
+    data = json.loads(request.body)
+           ^^^^
+NameError: name 'json' is not defined. Did you forget to import 'json'?
+ERROR 2026-01-06 04:54:59,755 log "POST /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/ HTTP/1.1" 500 80940
+ERROR 2026-01-06 04:55:01,471 log Internal Server Error: /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\projects\views.py", line 257, in get_task_help
+    data = json.loads(request.body)
+           ^^^^
+NameError: name 'json' is not defined. Did you forget to import 'json'?
+ERROR 2026-01-06 04:55:01,479 log "POST /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/ HTTP/1.1" 500 80940
+ERROR 2026-01-06 04:55:09,967 log Internal Server Error: /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\projects\views.py", line 257, in get_task_help
+    data = json.loads(request.body)
+           ^^^^
+NameError: name 'json' is not defined. Did you forget to import 'json'?
+ERROR 2026-01-06 04:55:10,181 log "POST /projects/fdf8596f-0813-437a-99d0-14a7fda8bc3f/get_task_help/ HTTP/1.1" 500 80940

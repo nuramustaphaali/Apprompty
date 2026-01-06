@@ -1,62 +1,70 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-    <div>
-        <h2 style="margin: 0; font-weight: 700; color: #111827;">Projects</h2>
-        <p style="margin: 5px 0 0 0; color: #6b7280; font-size: 0.9em;">Overview of your architectural plans.</p>
+<div class="dashboard-container" style="max-width: 1200px; margin: 0 auto;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <div>
+            <h1 style="margin: 0; font-size: 2em; font-weight: 700; color: #111827;">Projects</h1>
+            <p style="margin: 5px 0 0 0; color: #6b7280;">Manage your AI-architected applications.</p>
+        </div>
+        <a href="{% url 'create_project' %}" style="background-color: #111827; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 0.95em; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+            + New Project
+        </a>
     </div>
-    <a href="{% url 'create_project' %}" style="background-color: #111827; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: 500; font-size: 0.95em;">+ New Project</a>
-</div>
 
-{% if projects %}
-    <div style="display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));">
-        {% for project in projects %}
-        <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 25px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; flex-direction: column; height: 100%; box-sizing: border-box;">
-            
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
-                <span style="background: #f3f4f6; color: #4b5563; font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; padding: 4px 8px; border-radius: 4px;">
-                    Phase {{ project.current_phase }}
-                </span>
-                <span style="font-size: 0.75em; color: #9ca3af;">{{ project.updated_at|date:"M d" }}</span>
-            </div>
-            
-            <h3 style="margin: 0 0 10px 0; font-size: 1.3em; font-weight: 600; color: #1f2937;">{{ project.name }}</h3>
-            <p style="color: #6b7280; font-size: 0.9em; margin-bottom: 25px; line-height: 1.5; flex-grow: 1;">
-                {{ project.description|truncatechars:90|default:"No description provided." }}
-            </p>
+    {% if projects %}
+        <div style="display: grid; gap: 25px; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));">
+            {% for project in projects %}
+            <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 25px; display: flex; flex-direction: column; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <div style="font-size: 0.75em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 10px; border-radius: 20px; 
+                        {% if project.current_phase >= 7 %}background: #dcfce7; color: #15803d;{% elif project.current_phase >= 6 %}background: #f3e8ff; color: #7e22ce;{% else %}background: #f3f4f6; color: #4b5563;{% endif %}">
+                        {% if project.current_phase >= 7 %}Ready to Build{% elif project.current_phase >= 6 %}Architecting{% else %}Planning{% endif %}
+                    </div>
+                    <span style="font-size: 0.8em; color: #9ca3af;">{{ project.updated_at|date:"M d, Y" }}</span>
+                </div>
+                
+                <h3 style="margin: 0 0 10px 0; font-size: 1.4em; color: #1f2937;">{{ project.name }}</h3>
+                <p style="color: #6b7280; font-size: 0.95em; line-height: 1.5; margin-bottom: 25px; flex-grow: 1;">
+                    {{ project.description|truncatechars:100|default:"No description provided." }}
+                </p>
 
-            <div style="margin-top: auto;">
                 <a href="{% url project.action.url project.id %}" 
-                   style="display: block; width: 100%; text-align: center; text-decoration: none; color: white; padding: 12px 0; border-radius: 6px; font-weight: 500; transition: opacity 0.2s;"
-                   class="{{ project.action.class }}" 
-                   onmouseover="this.style.opacity='0.9'" 
-                   onmouseout="this.style.opacity='1'">
+                   class="{{ project.action.class }}"
+                   style="display: block; text-align: center; color: white; padding: 12px; border-radius: 8px; font-weight: 600; text-decoration: none; margin-bottom: 15px; transition: opacity 0.2s;">
                     {{ project.action.label }} &rarr;
                 </a>
-            </div>
 
-            <div style="border-top: 1px solid #f3f4f6; padding-top: 15px; margin-top: 20px; display: flex; justify-content: space-between; font-size: 0.85em;">
-                <a href="{% url 'project_detail' project.id %}" style="color: #4b5563; text-decoration: none; font-weight: 500;">Details</a>
-                <div style="display: flex; gap: 15px;">
-                    <a href="{% url 'duplicate_project' project.id %}" style="color: #6b7280; text-decoration: none;">Duplicate</a>
+                <div style="border-top: 1px solid #f3f4f6; padding-top: 15px; display: flex; justify-content: space-between; font-size: 0.9em;">
+                    <a href="{% url 'project_detail' project.id %}" style="color: #4b5563; text-decoration: none; font-weight: 500;">Overview</a>
+                    <a href="{% url 'delete_project' project.id %}" style="color: #ef4444; text-decoration: none;">Delete</a>
                 </div>
             </div>
-
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
+    {% else %}
+        <div style="text-align: center; padding: 100px 20px; background: #f9fafb; border: 2px dashed #e5e7eb; border-radius: 16px;">
+            <h3 style="color: #374151; margin-bottom: 10px;">No projects yet</h3>
+            <p style="color: #6b7280; margin-bottom: 30px;">Let's build something amazing together.</p>
+            <a href="{% url 'create_project' %}" style="color: #2563eb; font-weight: 600;">Start First Project &rarr;</a>
+        </div>
+    {% endif %}
+</div>
 
-    <style>
-        .bg-blue-600 { background-color: #2563eb; }
-        .bg-yellow-600 { background-color: #d97706; }
-        .bg-purple-600 { background-color: #7c3aed; }
-        .bg-green-600 { background-color: #059669; }
-    </style>
-{% else %}
-    <div style="text-align: center; padding: 80px 20px; background: #f9fafb; border: 2px dashed #e5e7eb; border-radius: 12px;">
-        <h3 style="color: #374151; margin-bottom: 10px;">No projects yet</h3>
-        <a href="{% url 'create_project' %}" style="color: #2563eb; font-weight: 500;">Create Project &rarr;</a>
-    </div>
-{% endif %}
+<style>
+    /* Dynamic Button Colors */
+    .bg-blue-600 { background-color: #2563eb; }
+    .bg-blue-600:hover { background-color: #1d4ed8; }
+    
+    .bg-yellow-600 { background-color: #d97706; }
+    .bg-yellow-600:hover { background-color: #b45309; }
+    
+    .bg-purple-600 { background-color: #7c3aed; }
+    .bg-purple-600:hover { background-color: #6d28d9; }
+    
+    .bg-green-600 { background-color: #059669; }
+    .bg-green-600:hover { background-color: #047857; }
+</style>
 {% endblock %}

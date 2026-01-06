@@ -7,6 +7,7 @@ from .forms import ProjectForm
 from .engine import FlowEngine
 from .questions import QUESTION_BANK
 from .ai_service import AIService
+from django.views.decorators.http import require_POST
 
 # --- HELPER FUNCTION ---
 def get_next_action(project):
@@ -226,3 +227,43 @@ def flow_debug(request, pk):
     return render(request, 'projects/flow_debug.html', {'project': project, 'state': state, 'stages': ['intent', 'platform', 'ui_ux', 'tech_stack', 'quality']})
 
 
+# projects/views.py
+
+@login_required
+def project_implementation(request, pk):
+    """
+    Phase 7: The Task Board
+    Parses the JSON blueprint and displays phases as a checklist.
+    """
+    project = get_object_or_404(Project, pk=pk, user=request.user)
+    
+    # Extract phases from the saved blueprint
+    # Structure expected: { "phases": [ { "title": "...", "tasks": ["..."] } ] }
+    blueprint = project.blueprint_data or {}
+    phases = blueprint.get('phases', [])
+    
+    return render(request, 'projects/implementation.html', {
+        'project': project,
+        'phases': phases
+    })
+
+@login_required
+@require_POST
+def get_task_help(request, pk):
+    """
+    AJAX Endpoint: Returns AI code for a specific task string.
+    """
+    project = get_object_or_404(Project, pk=pk, user=request.user)
+    data = json.loads(request.body)
+    task_name = data.get('task')
+    
+    # 1. Init AI
+    ai = AIService()
+    
+    # 2. Call AI with project context
+    help_content = ai.generate_task_guide(
+        project_context=project.blueprint_data,
+        current_task=task_name
+    )
+    
+    return JsonResponse({'content': help_content})
