@@ -247,23 +247,62 @@ def project_implementation(request, pk):
         'phases': phases
     })
 
+import json
+import logging
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+from .models import Project
+from .ai_service import AIService
+
+logger = logging.getLogger(__name__)
+
 @login_required
 @require_POST
 def get_task_help(request, pk):
     """
-    AJAX Endpoint: Returns AI code for a specific task string.
+    AJAX Endpoint: Returns AI code for a specific task.
     """
-    project = get_object_or_404(Project, pk=pk, user=request.user)
-    data = json.loads(request.body)
-    task_name = data.get('task')
-    
-    # 1. Init AI
-    ai = AIService()
-    
-    # 2. Call AI with project context
-    help_content = ai.generate_task_guide(
-        project_context=project.blueprint_data,
-        current_task=task_name
-    )
-    
-    return JsonResponse({'content': help_content})
+    try:
+        project = get_object_or_404(Project, pk=pk, user=request.user)
+        
+        # 1. Parse Request Body
+        try:
+            data = json.loads(request.body)
+            task_name = data.get('task')
+        except json.JSONDecodeError:
+            return JsonResponse({'content': 'Error: Invalid JSON body'}, status=400)
+
+        # 2. Prepare Context (Handle missing keys gracefully)
+        blueprint = project.blueprint_data or {}
+        backend = blueprint.get('backend', {})
+        
+        # Force SQLite3 context if missing, since you explicitly requested it
+        if not backend.get('database'):
+            backend['database'] = "SQLite3"
+
+        project_context = {
+            'architecture': blueprint.get('architecture', {}),
+            'frontend': blueprint.get('frontend', {}),
+            'backend': backend,
+        }
+
+        # 3. Call AI
+        ai = AIService()
+        help_content = ai.generate_task_guide(
+            project_context=project_context,
+            current_task=task_name
+        )
+
+        return JsonResponse({'content': help_content})
+
+    except Exception as e:
+        # Log the full error to your terminal for debugging
+        logger.error(f"Task Generation Error: {str(e)}")
+        print(f"❌ SERVER ERROR: {str(e)}") # Print to terminal
+        
+        # Return a clean JSON error to the frontend
+        return JsonResponse({
+            'content': f"## System Error\n\nThe server encountered an error while contacting DeepSeek:\n\n`{str(e)}`\n\nPlease check your terminal for more details."
+        }, status=500)
