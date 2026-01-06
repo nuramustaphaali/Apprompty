@@ -1,0 +1,228 @@
+import uuid
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Project
+from .forms import ProjectForm
+from .engine import FlowEngine
+from .questions import QUESTION_BANK
+from .ai_service import AIService
+
+# --- HELPER FUNCTION ---
+def get_next_action(project):
+    """
+    Determines the next button/action for the dashboard.
+    ALWAYS returns a dictionary with 'url', 'label', and 'class'.
+    """
+    phase = project.current_phase
+    
+    # Defaults (Safety Net)
+    action = {
+        'label': 'Open Details',
+        'url': 'project_detail',
+        'class': 'bg-gray-600 hover:bg-gray-700'
+    }
+
+    # Phase 0-3: Setup -> Start Wizard
+    if phase < 4:
+        action = {
+            'label': 'Start Planning', 
+            'url': 'project_wizard', 
+            'class': 'bg-blue-600 hover:bg-blue-700'
+        }
+    
+    # Phase 4: Data Collection -> Continue Wizard
+    elif phase == 4:
+        action = {
+            'label': 'Resume Questions', 
+            'url': 'project_wizard', 
+            'class': 'bg-blue-600 hover:bg-blue-700'
+        }
+    
+    # Phase 5: Validation -> Review Summary
+    elif phase == 5:
+        action = {
+            'label': 'Review & Lock', 
+            'url': 'project_summary', 
+            'class': 'bg-yellow-600 hover:bg-yellow-700'
+        }
+    
+    # Phase 6: AI Generation -> Trigger AI
+    elif phase == 6:
+        action = {
+            'label': 'Generate Blueprint', 
+            'url': 'project_generate', 
+            'class': 'bg-purple-600 hover:bg-purple-700'
+        }
+    
+    # Phase 7+: Blueprint Ready -> View Result
+    elif phase >= 7:
+        action = {
+            'label': 'View Blueprint', 
+            'url': 'project_blueprint', 
+            'class': 'bg-green-600 hover:bg-green-700'
+        }
+        
+    return action
+
+# --- VIEWS ---
+
+@login_required
+def dashboard(request):
+    projects = Project.objects.filter(user=request.user)
+    
+    # IMPORTANT: Manually attach the action dict to each object
+    for p in projects:
+        p.action = get_next_action(p)
+        
+    return render(request, 'projects/dashboard.html', {'projects': projects})
+
+@login_required
+def create_project(request):
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.user = request.user
+            project.save()
+            return redirect('dashboard')
+    else:
+        form = ProjectForm()
+    return render(request, 'projects/create.html', {'form': form})
+
+@login_required
+def project_detail(request, pk):
+    project = get_object_or_404(Project, pk=pk, user=request.user)
+    action = get_next_action(project)
+    return render(request, 'projects/detail.html', {'project': project, 'action': action})
+
+@login_required
+def delete_project(request, pk):
+    project = get_object_or_404(Project, pk=pk, user=request.user)
+    if request.method == 'POST':
+        project.delete()
+        messages.success(request, "Project deleted.")
+        return redirect('dashboard')
+    return render(request, 'projects/delete.html', {'project': project})
+
+@login_required
+def duplicate_project_view(request, pk):
+    original = get_object_or_404(Project, pk=pk, user=request.user)
+    original.pk = None
+    original.id = uuid.uuid4()
+    original.name = f"Copy of {original.name}"
+    original.status = 'draft'
+    original.current_phase = 0
+    original.save()
+    messages.success(request, "Project duplicated.")
+    return redirect('dashboard')
+
+# --- WIZARD & AI VIEWS ---
+@login_required
+def project_wizard(request, pk):
+    project = get_object_or_404(Project, pk=pk, user=request.user)
+    engine = FlowEngine(project)
+    state = engine.get_current_state()
+
+    if state['is_completed']:
+        return redirect('project_summary', pk=pk)
+
+    current_stage = state['current_stage']
+    stage_data = QUESTION_BANK.get(current_stage)
+
+    if request.method == 'POST':
+        answers = {}
+        for q in stage_data['questions']:
+            qid = q['id']
+            # Handle different input types
+            if q['type'] == 'checkbox':
+                val = request.POST.getlist(qid)
+            elif q['type'] == 'boolean':
+                val = request.POST.get(qid) == 'on'
+            else:
+                val = request.POST.get(qid)
+            
+            answers[qid] = val
+        
+        # --- DEBUG PRINT ---
+        # Look at your terminal when you click Next. It should show the data.
+        print(f"DEBUG: Saving Stage: {current_stage}")
+        print(f"DEBUG: Data Received: {answers}")
+        # -------------------
+
+        try:
+            engine.submit_answer(current_stage, answers)
+            messages.success(request, f"Saved {current_stage}!") # Visual feedback
+            return redirect('project_wizard', pk=pk)
+        except ValueError as e:
+            messages.error(request, str(e))
+
+    return render(request, 'projects/wizard.html', {
+        'project': project,
+        'stage': stage_data,
+        'progress': state['progress_percent']
+    })
+
+@login_required
+def project_summary(request, pk):
+    project = get_object_or_404(Project, pk=pk, user=request.user)
+    engine = FlowEngine(project)
+    
+    if request.method == 'POST':
+        try:
+            engine.lock_requirements()
+            messages.success(request, "Locked. Ready for AI.")
+            return redirect('project_generate', pk=pk) # Direct to AI page
+        except ValueError as e:
+            messages.error(request, str(e))
+    
+    return render(request, 'projects/summary.html', {'project': project, 'summary': engine.get_summary()})
+
+# ... (Keep existing imports)
+from .ai_service import AIService
+
+@login_required
+def project_generate(request, pk):
+    """
+    Phase 6: The AI Trigger
+    """
+    project = get_object_or_404(Project, pk=pk, user=request.user)
+    
+    if request.method == 'POST':
+        # 1. Initialize Service
+        ai = AIService()
+        
+        # 2. Get User Answers
+        requirements = project.requirements_data.get('answers', {})
+        
+        # 3. Call DeepSeek (Synchronous)
+        blueprint = ai.generate_blueprint(requirements)
+        
+        if 'error' in blueprint:
+            messages.error(request, f"AI Error: {blueprint['raw']}")
+            return redirect('project_generate', pk=pk)
+
+        # 4. Save Result
+        project.blueprint_data = blueprint
+        project.status = 'blueprint_ready'
+        project.current_phase = 7
+        project.save()
+        
+        messages.success(request, "Blueprint Architected Successfully!")
+        return redirect('project_blueprint', pk=pk)
+        
+    return render(request, 'projects/generate.html', {'project': project})
+    
+@login_required
+def project_blueprint(request, pk):
+    project = get_object_or_404(Project, pk=pk, user=request.user)
+    return render(request, 'projects/blueprint.html', {'project': project, 'bp': project.blueprint_data})
+
+@login_required
+def flow_debug(request, pk):
+    project = get_object_or_404(Project, pk=pk, user=request.user)
+    engine = FlowEngine(project)
+    state = engine.get_current_state()
+    return render(request, 'projects/flow_debug.html', {'project': project, 'state': state, 'stages': ['intent', 'platform', 'ui_ux', 'tech_stack', 'quality']})
+
+

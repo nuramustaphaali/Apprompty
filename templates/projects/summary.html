@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'project_wizard' project.id %}" style="color: #6b7280; text-decoration: none;">&larr; Back to Questions</a>
+    </div>
+
+    <div style="background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); padding: 40px; border-radius: 12px; color: white; margin-bottom: 30px;">
+        <h1 style="margin: 0; font-size: 2em;">Review Requirements</h1>
+        <p style="opacity: 0.9; margin: 10px 0 0 0;">
+            Please verify your answers. Once locked, the AI Architect will generate your blueprint.
+        </p>
+    </div>
+
+    <div style="display: grid; gap: 20px;">
+        {% for stage in summary %}
+        <div style="background: white; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
+            <div style="background: #f9fafb; padding: 15px 20px; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; font-size: 1em; color: #374151;">{{ stage.title }}</h3>
+                <a href="{% url 'project_wizard' project.id %}" style="font-size: 0.8em; color: #2563eb; text-decoration: none; font-weight: 500;">Edit Section</a>
+            </div>
+            
+            <div style="padding: 20px;">
+                {% for item in stage.items %}
+                <div style="margin-bottom: 15px; last-child: margin-bottom: 0;">
+                    <div style="font-size: 0.8em; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">
+                        {{ item.label }}
+                    </div>
+                    <div style="color: #111827; font-weight: 500; font-size: 1.05em;">
+                        {{ item.value }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div style="margin-top: 40px; text-align: right; background: white; padding: 20px; border: 1px solid #e5e7eb; border-radius: 8px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="text-align: left;">
+            <strong style="display: block; color: #b91c1c;">Warning: Action is final</strong>
+            <span style="font-size: 0.9em; color: #6b7280;">Generating the blueprint will consume AI tokens.</span>
+        </div>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" style="background-color: #111827; color: white; padding: 15px 30px; border: none; border-radius: 6px; font-weight: 600; font-size: 1.1em; cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                <span>🔒 Lock & Generate Blueprint</span>
+            </button>
+        </form>
+    </div>
+
+</div>
+{% endblock %}

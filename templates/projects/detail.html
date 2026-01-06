@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 900px; margin: 0 auto;">
+
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'dashboard' %}" style="color: #6b7280; text-decoration: none;">&larr; Back to Dashboard</a>
+    </div>
+
+    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 30px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: start;">
+        <div>
+            <h1 style="margin: 0; font-size: 2em; color: #111827;">{{ project.name }}</h1>
+            <p style="color: #6b7280; margin: 10px 0 0 0; max-width: 500px;">{{ project.description }}</p>
+        </div>
+        
+        <div>
+            <a href="{% url action.url project.id %}" 
+               class="{{ action.class }}"
+               style="display: inline-block; padding: 12px 25px; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+                {{ action.label }}
+            </a>
+        </div>
+    </div>
+
+    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;">
+        <div style="background: #f9fafb; padding: 15px 25px; border-bottom: 1px solid #e5e7eb; font-weight: 600; color: #374151;">
+            Project Lifecycle
+        </div>
+
+        <div style="padding: 0;">
+            <div style="display: flex; padding: 20px 25px; border-bottom: 1px solid #f3f4f6; {% if project.current_phase > 4 %}background: #f0fdf4;{% endif %}">
+                <div style="width: 40px; font-size: 1.5em; margin-right: 15px;">
+                    {% if project.current_phase > 4 %}✅{% else %}📋{% endif %}
+                </div>
+                <div style="flex-grow: 1;">
+                    <h3 style="margin: 0 0 5px 0; font-size: 1.1em;">1. Requirements Interview</h3>
+                    <p style="margin: 0; font-size: 0.9em; color: #6b7280;">Define intent, platforms, and tech preferences.</p>
+                </div>
+                {% if project.current_phase <= 4 %}
+                    <a href="{% url 'project_wizard' project.id %}" style="color: #2563eb; font-size: 0.9em; font-weight: 500; text-decoration: none;">Open Wizard &rarr;</a>
+                {% endif %}
+            </div>
+
+            <div style="display: flex; padding: 20px 25px; border-bottom: 1px solid #f3f4f6; {% if project.current_phase > 5 %}background: #f0fdf4;{% endif %}">
+                <div style="width: 40px; font-size: 1.5em; margin-right: 15px;">
+                    {% if project.current_phase > 5 %}✅{% else %}🔒{% endif %}
+                </div>
+                <div style="flex-grow: 1;">
+                    <h3 style="margin: 0 0 5px 0; font-size: 1.1em;">2. Lock & Validate</h3>
+                    <p style="margin: 0; font-size: 0.9em; color: #6b7280;">Review answers and freeze requirements.</p>
+                </div>
+                {% if project.current_phase >= 5 %}
+                    <a href="{% url 'project_summary' project.id %}" style="color: #2563eb; font-size: 0.9em; font-weight: 500; text-decoration: none;">View Summary &rarr;</a>
+                {% endif %}
+            </div>
+
+            <div style="display: flex; padding: 20px 25px; border-bottom: 1px solid #f3f4f6; {% if project.current_phase > 6 %}background: #f0fdf4;{% endif %}">
+                <div style="width: 40px; font-size: 1.5em; margin-right: 15px;">
+                    {% if project.current_phase > 6 %}✅{% else %}🧠{% endif %}
+                </div>
+                <div style="flex-grow: 1;">
+                    <h3 style="margin: 0 0 5px 0; font-size: 1.1em;">3. AI Architecture</h3>
+                    <p style="margin: 0; font-size: 0.9em; color: #6b7280;">Generate blueprint using Gemini.</p>
+                </div>
+                {% if project.current_phase == 6 %}
+                    <a href="{% url 'project_generate' project.id %}" style="color: #7c3aed; font-size: 0.9em; font-weight: 500; text-decoration: none;">Start AI &rarr;</a>
+                {% endif %}
+            </div>
+
+            <div style="display: flex; padding: 20px 25px; {% if project.current_phase >= 7 %}background: #fff;{% else %}opacity: 0.5;{% endif %}">
+                <div style="width: 40px; font-size: 1.5em; margin-right: 15px;">📄</div>
+                <div style="flex-grow: 1;">
+                    <h3 style="margin: 0 0 5px 0; font-size: 1.1em;">4. Technical Blueprint</h3>
+                    <p style="margin: 0; font-size: 0.9em; color: #6b7280;">Your complete engineering plan.</p>
+                </div>
+                {% if project.current_phase >= 7 %}
+                    <a href="{% url 'project_blueprint' project.id %}" style="color: #059669; font-size: 0.9em; font-weight: 500; text-decoration: none;">View Document &rarr;</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 40px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+        <h4 style="color: #9ca3af; text-transform: uppercase; font-size: 0.8em; letter-spacing: 0.05em;">System Data</h4>
+        <div style="display: flex; gap: 15px; margin-top: 10px;">
+            <a href="{% url 'flow_debug' project.id %}" style="font-size: 0.85em; color: #6b7280; text-decoration: none;">🛠 Debug Logic Flow</a>
+            <a href="{% url 'delete_project' project.id %}" style="font-size: 0.85em; color: #ef4444; text-decoration: none;">Delete Project</a>
+        </div>
+        <div style="margin-top: 10px; font-family: monospace; font-size: 0.8em; color: #d1d5db;">
+            UUID: {{ project.id }}
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .bg-blue-600 { background-color: #2563eb; }
+    .bg-yellow-600 { background-color: #d97706; }
+    .bg-purple-600 { background-color: #7c3aed; }
+    .bg-green-600 { background-color: #059669; }
+</style>
+{% endblock %}

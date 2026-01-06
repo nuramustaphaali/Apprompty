@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 60px auto; text-align: center;">
+    
+    <div style="margin-bottom: 30px; font-size: 4em;">
+        🐳
+    </div>
+
+    <h1 style="margin-bottom: 10px; color: #111827;">Ready to Architect</h1>
+    <p style="color: #6b7280; margin-bottom: 30px; line-height: 1.6;">
+        We have your requirements. <br>
+        <strong>DeepSeek V3</strong> is ready to generate your technical blueprint.
+    </p>
+
+    <form method="POST" onsubmit="showLoading()">
+        {% csrf_token %}
+        <button type="submit" id="gen-btn" style="background-color: #2563eb; color: white; padding: 15px 40px; border: none; border-radius: 8px; font-weight: 600; font-size: 1.1em; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3); transition: background 0.2s;">
+            ✨ Generate Blueprint
+        </button>
+    </form>
+    
+    <div id="loading-msg" style="display: none; margin-top: 25px; color: #4b5563;">
+        <div style="display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(37,99,235,0.3); border-radius: 50%; border-top-color: #2563eb; animation: spin 1s ease-in-out infinite; vertical-align: middle; margin-right: 10px;"></div>
+        <span>Thinking... (This takes about 10-15 seconds)</span>
+    </div>
+
+</div>
+
+<script>
+    function showLoading() {
+        const btn = document.getElementById('gen-btn');
+        const msg = document.getElementById('loading-msg');
+        
+        // Disable button to prevent double-submit
+        btn.disabled = true;
+        btn.style.opacity = "0.7";
+        btn.innerText = "Processing...";
+        
+        // Show spinner
+        msg.style.display = "block";
+    }
+</script>
+
+<style>
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+</style>
+{% endblock %}

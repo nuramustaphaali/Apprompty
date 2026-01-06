@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 40px auto; text-align: center;">
+    <h2 style="color: #dc2626; margin-bottom: 10px;">Delete Project?</h2>
+    <p style="color: #4b5563; margin-bottom: 30px;">
+        Are you sure you want to permanently delete <strong>"{{ project.name }}"</strong>? <br>
+        This action cannot be undone.
+    </p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div style="display: flex; justify-content: center; gap: 15px;">
+            <a href="{% url 'dashboard' %}" style="padding: 10px 20px; background: #f3f4f6; color: #374151; text-decoration: none; border-radius: 6px;">Cancel</a>
+            <button type="submit" style="padding: 10px 20px; background: #dc2626; color: white; border: none; border-radius: 6px; cursor: pointer;">Yes, Delete It</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
