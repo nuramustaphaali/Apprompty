@@ -42,7 +42,7 @@ Apprompty is an intelligent project planning tool that converts abstract app ide
 
 1.  **Clone the repository**
     ```bash
-    git clone [https://github.com/nuramustaphaali/Apprompty.git](https://github.com/nuramustaphaali/Apprompty.git)
+    git clone https://github.com/nuramustaphaali/Apprompty.git
     cd Apprompty
     ```
 

@@ -1,8 +1,9 @@
 za.txt
-/venv
+
 .env
 db.sqlite3
 ai_service_deepseek.py
 refined ai prompts.jss
 check_models.py
 free_models.py
+/venv
