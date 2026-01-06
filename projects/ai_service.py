@@ -251,10 +251,10 @@ class AIService:
             'backend': """
                 TASK: Write the 'Backend Strategy'.
                 CONTENT:
-                - Database Schema Description (Relationships, key fields).
-                - API Architecture (REST/GraphQL endpoints logic).
-                - Authentication Strategy (JWT, OAuth details).
-                - Security measures.
+                - Database Table Dat NOT Schema Description (Relationships, key fields) keep it short.
+                - API Architecture (REST/GraphQL endpoints logic) keep it short nut full.
+                - Authentication Strategy (JWT, OAuth details) short.
+                - Security measures, very consise.
             """,
             'frontend': """
                 TASK: Write the 'Frontend & UI Guidelines'.
