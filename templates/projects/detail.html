@@ -65,7 +65,9 @@
                 <p>Interactive code generation and task list.</p>
             </div>
             {% if project.current_phase >= 7 %}
-                <a href="{% url 'project_docs' project.id %}" class="stage-link" style="color: #15803d; font-weight: 700;">View Documentation &rarr;</a>
+                <a href="{% url 'project_docs' project.id %}" class="stage-link" style="color: #15803d; font-weight: 700;">
+                    Open Master Docs &rarr;
+                </a>
             {% endif %}
         </div>
     </div>

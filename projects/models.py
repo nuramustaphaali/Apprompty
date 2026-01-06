@@ -31,14 +31,14 @@ class Project(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects')
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    
+
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='draft')
     current_phase = models.IntegerField(choices=PHASE_CHOICES, default=0)
     
     # Future-proofing for AI Data (Stored as JSON in SQLite)
     requirements_data = models.JSONField(default=dict, blank=True)
     blueprint_data = models.JSONField(default=dict, blank=True)
-    documentation_md = models.TextField(blank=True, null=True)
+    docs_data = models.JSONField(default=dict, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -12,6 +12,7 @@ urlpatterns = [
     path('<uuid:pk>/summary/', views.project_summary, name='project_summary'),
     path('<uuid:pk>/generate/', views.project_generate, name='project_generate'),
     path('<uuid:pk>/blueprint/', views.project_blueprint, name='project_blueprint'),
-    path('<uuid:pk>/docs/', views.project_docs, name='project_docs'),
+    path('<uuid:pk>/docs/', views.project_docs_shell, name='project_docs'),
+    path('<uuid:pk>/get_doc_section/', views.get_doc_section, name='get_doc_section'),
     path('<uuid:pk>/get_task_help/', views.get_task_help, name='get_task_help'),
 ]

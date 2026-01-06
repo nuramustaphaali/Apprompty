@@ -222,3 +222,83 @@ class AIService:
             
         except Exception as e:
             return f"Documentation Error: {str(e)}"
+
+# ... imports ...
+
+    def generate_doc_section(self, project_context, section_key):
+        """
+        Generates ONE specific section of the documentation to save tokens.
+        """
+        
+        # 1. Define Prompts for each Section
+        prompts = {
+            'intro': """
+                TASK: Write the 'Executive Summary' and 'Vision'.
+                CONTENT:
+                - Project Title & High-level purpose.
+                - The "Why": Business value and problem solved.
+                - Success Criteria: How do we know it works?
+                - NO CODE. Markdown format.
+            """,
+            'setup': """
+                TASK: Write the 'Master Setup Guide'.
+                CONTENT:
+                - Prerequisites (Node, Python, Docker versions).
+                - Terminal Commands for initialization (git init, pip install, etc).
+                - Environment Variable setup (.env example).
+                - NO Application Code (No views/models), ONLY Setup commands.
+            """,
+            'backend': """
+                TASK: Write the 'Backend Strategy'.
+                CONTENT:
+                - Database Schema Description (Relationships, key fields).
+                - API Architecture (REST/GraphQL endpoints logic).
+                - Authentication Strategy (JWT, OAuth details).
+                - Security measures.
+            """,
+            'frontend': """
+                TASK: Write the 'Frontend & UI Guidelines'.
+                CONTENT:
+                - Component Hierarchy (Folder structure explanation).
+                - State Management Strategy.
+                - UI/UX Rules (Color usage, Typography, Accessibility).
+                - Critical Libraries list.
+            """,
+            'lifecycle': """
+                TASK: Write the 'Phase 8: Lifecycle'.
+                CONTENT:
+                - Testing Strategy (Unit vs E2E).
+                - Deployment Pipeline (CI/CD suggestions).
+                - Maintenance (Logging, Monitoring).
+                - Future Roadmap suggestions.
+            """
+        }
+
+        # 2. Get the specific prompt
+        specific_instruction = prompts.get(section_key, prompts['intro'])
+
+        system_prompt = f"""
+        ACT AS: A Senior CTO.
+        {specific_instruction}
+        
+        CRITICAL: Output valid Markdown. Be professional and strategic.
+        """
+        
+        user_content = f"""
+        PROJECT BLUEPRINT:
+        {json.dumps(project_context, indent=2)}
+        """
+
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_content},
+                ],
+                temperature=0.3,
+            )
+            return self.clean_json_string(response.choices[0].message.content)
+            
+        except Exception as e:
+            return f"Error generating section: {str(e)}"

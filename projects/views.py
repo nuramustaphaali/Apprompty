@@ -358,3 +358,61 @@ def project_docs(request, pk):
         
     # 4. If GET and no docs exist, show "Ready to Generate" screen
     return render(request, 'projects/docs_start.html', {'project': project})
+
+
+# ... imports ...
+import markdown
+
+@login_required
+@require_POST
+def get_doc_section(request, pk):
+    """
+    AJAX: Fetches or Generates a specific documentation section.
+    """
+    project = get_object_or_404(Project, pk=pk, user=request.user)
+    
+    try:
+        data = json.loads(request.body)
+        section_key = data.get('section') # e.g., 'intro', 'setup'
+        force_regen = data.get('regenerate', False)
+        
+        # 1. Load existing docs
+        current_docs = project.docs_data or {}
+        
+        # 2. If exists and not forcing regen, return saved data
+        if section_key in current_docs and not force_regen:
+            md_content = current_docs[section_key]
+            return JsonResponse({
+                'markdown': md_content, 
+                'html': markdown.markdown(md_content, extensions=['fenced_code', 'tables'])
+            })
+
+        # 3. Generate New Content
+        ai = AIService()
+        context = {
+            'blueprint': project.blueprint_data,
+            'requirements': project.requirements_data.get('answers', {})
+        }
+        
+        new_md = ai.generate_doc_section(context, section_key)
+        
+        # 4. Save to DB (Update only this key)
+        current_docs[section_key] = new_md
+        project.docs_data = current_docs
+        project.save()
+        
+        return JsonResponse({
+            'markdown': new_md,
+            'html': markdown.markdown(new_md, extensions=['fenced_code', 'tables'])
+        })
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@login_required
+def project_docs_shell(request, pk):
+    """
+    Renders the main Docs Container (The Tabs).
+    """
+    project = get_object_or_404(Project, pk=pk, user=request.user)
+    return render(request, 'projects/docs_tabs.html', {'project': project})
