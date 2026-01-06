@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 60px auto; text-align: center;">
+    
+    <div style="font-size: 4em; margin-bottom: 20px;">📄</div>
+
+    <h1 style="color: #111827; margin-bottom: 15px;">Generate Project Documentation</h1>
+    <p style="color: #6b7280; margin-bottom: 30px; line-height: 1.6;">
+        The Architect has finished the plans. <br>
+        Now, let's generate the <strong>Project Setup Guide</strong> and <strong>Executive README</strong> <br>
+        so you have a clear view of the requirements and technologies.
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" style="background-color: #2563eb; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+            Generate Documentation
+        </button>
+    </form>
+</div>
+{% endblock %}

@@ -163,3 +163,49 @@ class AIService:
             
         except Exception as e:
             return f"AI Error: {str(e)}"
+
+            # ... (Keep existing imports and init) ...
+
+    def generate_project_docs(self, project_context):
+        """
+        Generates a professional README.md and Project Setup Guide.
+        DOES NOT write feature code. Only initialization and documentation.
+        """
+        system_prompt = """
+        ACT AS: A Technical Project Manager.
+        TASK: Write a professional README.md and Project Specification Document.
+        
+        CRITICAL RULES:
+        1. NO Feature Code (Do not write models, views, or functions).
+        2. FOCUS on High-Level Overview, Requirements, and Tech Stack.
+        3. INCLUDE 'Getting Started' section with only INITIALIZATION commands (git init, npm install, etc).
+        4. Output formatted as clear Markdown.
+        """
+        
+        user_content = f"""
+        PROJECT BLUEPRINT:
+        {json.dumps(project_context, indent=2)}
+        
+        Please generate a professional README.md that includes:
+        1. Project Title & Executive Summary
+        2. comprehensive Tech Stack Table
+        3. User Requirements List
+        4. System Architecture Summary
+        5. "How to Start" (Standard initialization commands only)
+        """
+
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_content},
+                ],
+                temperature=0.3,
+            )
+            # Remove <think> blocks if present
+            clean_text = self.clean_json_string(response.choices[0].message.content) 
+            return clean_text
+            
+        except Exception as e:
+            return f"Documentation Error: {str(e)}"

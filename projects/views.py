@@ -306,3 +306,40 @@ def get_task_help(request, pk):
         return JsonResponse({
             'content': f"## System Error\n\nThe server encountered an error while contacting DeepSeek:\n\n`{str(e)}`\n\nPlease check your terminal for more details."
         }, status=500)
+# ... existing imports ...
+import markdown # You might need: pip install markdown
+
+@login_required
+def project_docs(request, pk):
+    """
+    Phase 7: Project Documentation & Setup Guide.
+    Generates a README.md view of the project.
+    """
+    project = get_object_or_404(Project, pk=pk, user=request.user)
+    
+    # Check if we already generated the docs to save API calls
+    # (We can store this in a text field, or just generate on fly for now)
+    
+    if request.method == 'POST':
+        # Trigger Generation
+        ai = AIService()
+        blueprint = project.blueprint_data or {}
+        
+        # Merge Original Requirements into context for a complete view
+        full_context = {
+            'blueprint': blueprint,
+            'original_requirements': project.requirements_data.get('answers', {})
+        }
+        
+        md_content = ai.generate_project_docs(full_context)
+        
+        # Convert Markdown to HTML for display
+        html_content = markdown.markdown(md_content, extensions=['fenced_code', 'tables'])
+        
+        return render(request, 'projects/docs.html', {
+            'project': project,
+            'html_content': html_content,
+            'raw_markdown': md_content
+        })
+        
+    return render(request, 'projects/docs_start.html', {'project': project})
