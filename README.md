@@ -5,7 +5,7 @@ Apprompty is an intelligent project planning tool that converts abstract app ide
 
 
 
-[Image of software architecture diagram]
+
 
 
 ## 🚀 Features
