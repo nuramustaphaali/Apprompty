@@ -9,6 +9,18 @@ from .questions import QUESTION_BANK
 from .ai_service import AIService
 from django.views.decorators.http import require_POST
 
+
+from django.shortcuts import redirect
+
+def index(request):
+    """
+    The Gatekeeper:
+    Redirects root traffic '/' directly to the dashboard.
+    If user is not logged in, the dashboard view will handle the redirect to login.
+    """
+    return redirect('dashboard')
+
+
 # --- HELPER FUNCTION ---
 def get_next_action(project):
     """

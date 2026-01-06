@@ -3,6 +3,7 @@ from django.urls import path, include
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from projects import views
 
 # 1. Configure the Schema View
 schema_view = get_schema_view(
@@ -20,6 +21,10 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('', views.index, name='home'),
+
+    
     path('accounts/', include('accounts.urls')),
     path('projects/', include('projects.urls')),
     path('api/projects/', include('projects.api_urls')),
