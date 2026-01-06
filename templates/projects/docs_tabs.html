@@ -22,13 +22,19 @@
         </div>
 
         <div>
-            <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
-                <button onclick="regenerateCurrent()" style="font-size: 0.85em; color: #dc2626; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 5px;">
-                    ↻ Regenerate Section
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 10px;">
+                
+                <button onclick="downloadCurrentSection()" id="btn-download" style="font-size: 0.85em; color: #059669; background: white; border: 1px solid #d1d5db; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: none; align-items: center; gap: 5px; font-weight: 600;">
+                    ⬇ Download .md
+                </button>
+
+                <button onclick="regenerateCurrent()" id="btn-regen" style="font-size: 0.85em; color: #dc2626; background: white; border: 1px solid #d1d5db; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: none; align-items: center; gap: 5px;">
+                    ↻ Regenerate
                 </button>
             </div>
 
             <div id="content-area" style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 40px; min-height: 400px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                
                 <div id="loader" style="text-align: center; padding-top: 50px;">
                     <div style="font-size: 3em; animation: pulse 1.5s infinite;">🤖</div>
                     <p style="color: #6b7280; margin-top: 15px;">DeepSeek is writing this section...</p>
@@ -42,6 +48,7 @@
 
 <script>
     let currentSection = 'intro';
+    let currentMarkdown = ''; // Stores the raw text for downloading
 
     // Load Intro on page load
     document.addEventListener('DOMContentLoaded', () => {
@@ -57,10 +64,14 @@
         
         const loader = document.getElementById('loader');
         const content = document.getElementById('prose-content');
-        
-        // Show Loader, Hide Content
+        const btnDownload = document.getElementById('btn-download');
+        const btnRegen = document.getElementById('btn-regen');
+
+        // Show Loader, Hide Content & Buttons
         loader.style.display = 'block';
         content.style.display = 'none';
+        btnDownload.style.display = 'none';
+        btnRegen.style.display = 'none';
         content.innerHTML = '';
 
         try {
@@ -77,10 +88,17 @@
             
             if (data.error) throw new Error(data.error);
 
-            // Show Content
+            // Store Raw Markdown for the download button
+            currentMarkdown = data.markdown;
+
+            // Show Content & Buttons
             content.innerHTML = data.html;
             loader.style.display = 'none';
             content.style.display = 'block';
+            
+            // Fade in buttons
+            btnDownload.style.display = 'inline-flex';
+            btnRegen.style.display = 'inline-flex';
 
         } catch (e) {
             loader.style.display = 'none';
@@ -93,6 +111,27 @@
         if(confirm("Are you sure you want to rewrite this section?")) {
             loadSection(currentSection, true);
         }
+    }
+
+    function downloadCurrentSection() {
+        if (!currentMarkdown) return;
+
+        // Create a blob from the markdown text
+        const blob = new Blob([currentMarkdown], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        
+        // Create a temporary link to trigger download
+        const a = document.createElement('a');
+        a.href = url;
+        // Naming format: projectname_section.md
+        a.download = `{{ project.name|slugify }}_${currentSection}.md`;
+        
+        document.body.appendChild(a);
+        a.click();
+        
+        // Cleanup
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     }
 </script>
 

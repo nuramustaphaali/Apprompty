@@ -243,7 +243,7 @@ class AIService:
             'setup': """
                 TASK: Write the 'Master Setup Guide'.
                 CONTENT:
-                - Prerequisites (Node, Python, Docker versions).
+                - Prerequisites e.g (Node, Python, Docker versions).
                 - Terminal Commands for initialization (git init, pip install, etc).
                 - Environment Variable setup (.env example).
                 - NO Application Code (No views/models), ONLY Setup commands.
