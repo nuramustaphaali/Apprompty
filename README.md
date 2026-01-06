@@ -5,11 +5,11 @@ Apprompty is an intelligent project planning tool that converts abstract app ide
 
 ## 🚀 Features
 
-* **Phase 1-3: Workflow Engine** - A strict state-machine that guides users from "Idea" to "Locked Requirements".
-* **Phase 4: Interview Wizard** - Interactive forms to capture Intent, Tech Stack, UI/UX, and Quality requirements.
-* **Phase 5: Validation Lock** - Prevents AI hallucination by freezing requirements before generation.
-* **Phase 6: AI Blueprinting** - Generates a detailed JSON architecture (Frontend, Backend, API, DB) using DeepSeek.
-* **Phase 7: Implementation Hub** - An interactive "To-Do" list where the AI writes the specific code for every single task.
+* **Workflow Engine** - A strict state-machine that guides users from "Idea" to "Locked Requirements".
+* **Interview Wizard** - Interactive forms to capture Intent, Tech Stack, UI/UX, and Quality requirements.
+* **Validation Lock** - Prevents AI hallucination by freezing requirements before generation.
+* **AI Blueprinting** - Generates a detailed JSON architecture (Frontend, Backend, API, DB) using DeepSeek.
+* **Implementation Hub** - An interactive "To-Do" list where the AI writes the specific code for every single task.
 
 ## 🛠️ Tech Stack
 
@@ -23,8 +23,8 @@ Apprompty is an intelligent project planning tool that converts abstract app ide
 
 1.  **Clone the repository**
     ```bash
-    git clone https://github.com/yourusername/apprompty.git
-    cd apprompty
+    git clone https://github.com/nuramustaphaali/Apprompty.git
+    cd Apprompty
     ```
 
 2.  **Create Virtual Environment**
@@ -64,5 +64,6 @@ Apprompty uses the **OpenAI-Compatible** endpoint provided by OpenRouter.
 To change the model (e.g., to Gemini or GPT-4), edit `projects/ai_service.py`:
 ```python
 self.model = "deepseek/deepseek-r1-0528:free"
+```
 📄 License
 This project is licensed under the MIT License - see the LICENSE file for details.
