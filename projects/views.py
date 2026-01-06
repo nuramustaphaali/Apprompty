@@ -306,40 +306,55 @@ def get_task_help(request, pk):
         return JsonResponse({
             'content': f"## System Error\n\nThe server encountered an error while contacting DeepSeek:\n\n`{str(e)}`\n\nPlease check your terminal for more details."
         }, status=500)
-# ... existing imports ...
-import markdown # You might need: pip install markdown
+
+# ... imports ...
+import markdown
 
 @login_required
 def project_docs(request, pk):
     """
-    Phase 7: Project Documentation & Setup Guide.
-    Generates a README.md view of the project.
+    Phase 7: Strategic Documentation.
+    Checks DB first. If empty, generates via AI and saves.
     """
     project = get_object_or_404(Project, pk=pk, user=request.user)
     
-    # Check if we already generated the docs to save API calls
-    # (We can store this in a text field, or just generate on fly for now)
-    
+    # 1. Check if user requested a FORCE REGENERATE (via button)
+    force_regen = request.POST.get('regenerate') == 'true'
+
+    # 2. If docs exist and we aren't forcing, LOAD from DB
+    if project.documentation_md and not force_regen:
+        html_content = markdown.markdown(project.documentation_md, extensions=['fenced_code', 'tables'])
+        return render(request, 'projects/docs.html', {
+            'project': project,
+            'html_content': html_content,
+            'raw_markdown': project.documentation_md
+        })
+
+    # 3. Otherwise, GENERATE new docs
     if request.method == 'POST':
-        # Trigger Generation
         ai = AIService()
-        blueprint = project.blueprint_data or {}
         
-        # Merge Original Requirements into context for a complete view
+        # Merge context
+        blueprint = project.blueprint_data or {}
         full_context = {
             'blueprint': blueprint,
             'original_requirements': project.requirements_data.get('answers', {})
         }
         
+        # Call AI
         md_content = ai.generate_project_docs(full_context)
         
-        # Convert Markdown to HTML for display
-        html_content = markdown.markdown(md_content, extensions=['fenced_code', 'tables'])
+        # SAVE to Database
+        project.documentation_md = md_content
+        project.save()
         
+        # Render
+        html_content = markdown.markdown(md_content, extensions=['fenced_code', 'tables'])
         return render(request, 'projects/docs.html', {
             'project': project,
             'html_content': html_content,
             'raw_markdown': md_content
         })
         
+    # 4. If GET and no docs exist, show "Ready to Generate" screen
     return render(request, 'projects/docs_start.html', {'project': project})

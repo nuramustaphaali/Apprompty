@@ -398,3 +398,253 @@ Traceback (most recent call last):
            ^^^^
 NameError: name 'json' is not defined. Did you forget to import 'json'?
 ERROR 2026-01-06 05:13:19,497 log "POST /projects/4c99650e-a4cd-4314-b0bf-fe7d2f9fd518/get_task_help/ HTTP/1.1" 500 80946
+ERROR 2026-01-06 05:25:12,940 log Internal Server Error: /projects/4c99650e-a4cd-4314-b0bf-fe7d2f9fd518/blueprint/
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\projects\views.py", line 220, in project_blueprint
+    return render(request, 'projects/blueprint.html', {'project': project, 'bp': project.blueprint_data})
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\defaulttags.py", line 511, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\urls\resolvers.py", line 842, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'project_implementation' not found. 'project_implementation' is not a valid view function or pattern name.
+ERROR 2026-01-06 05:25:13,130 log "GET /projects/4c99650e-a4cd-4314-b0bf-fe7d2f9fd518/blueprint/ HTTP/1.1" 500 189992
+ERROR 2026-01-06 05:25:22,602 log Internal Server Error: /projects/4c99650e-a4cd-4314-b0bf-fe7d2f9fd518/
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\projects\views.py", line 98, in project_detail
+    return render(request, 'projects/detail.html', {'project': project, 'action': action})
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\defaulttags.py", line 333, in render
+    return nodelist.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\defaulttags.py", line 511, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\urls\resolvers.py", line 842, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'project_implementation' not found. 'project_implementation' is not a valid view function or pattern name.
+ERROR 2026-01-06 05:25:22,649 log "GET /projects/4c99650e-a4cd-4314-b0bf-fe7d2f9fd518/ HTTP/1.1" 500 181113
+ERROR 2026-01-06 05:25:54,624 log Internal Server Error: /projects/4c99650e-a4cd-4314-b0bf-fe7d2f9fd518/
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\projects\views.py", line 98, in project_detail
+    return render(request, 'projects/detail.html', {'project': project, 'action': action})
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\defaulttags.py", line 333, in render
+    return nodelist.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\defaulttags.py", line 511, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\urls\resolvers.py", line 842, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'docs' not found. 'docs' is not a valid view function or pattern name.
+ERROR 2026-01-06 05:25:54,683 log "GET /projects/4c99650e-a4cd-4314-b0bf-fe7d2f9fd518/ HTTP/1.1" 500 180800
+ERROR 2026-01-06 05:27:40,722 log Internal Server Error: /projects/4c99650e-a4cd-4314-b0bf-fe7d2f9fd518/blueprint/
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\projects\views.py", line 220, in project_blueprint
+    return render(request, 'projects/blueprint.html', {'project': project, 'bp': project.blueprint_data})
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\template\defaulttags.py", line 511, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\urls\resolvers.py", line 842, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'project_implementation' not found. 'project_implementation' is not a valid view function or pattern name.
+ERROR 2026-01-06 05:27:40,772 log "GET /projects/4c99650e-a4cd-4314-b0bf-fe7d2f9fd518/blueprint/ HTTP/1.1" 500 190114

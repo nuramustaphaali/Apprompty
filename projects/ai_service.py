@@ -164,34 +164,49 @@ class AIService:
         except Exception as e:
             return f"AI Error: {str(e)}"
 
-            # ... (Keep existing imports and init) ...
-
     def generate_project_docs(self, project_context):
         """
-        Generates a professional README.md and Project Setup Guide.
-        DOES NOT write feature code. Only initialization and documentation.
+        Generates a Strategic Project Guide (Stored in DB).
         """
         system_prompt = """
-        ACT AS: A Technical Project Manager.
-        TASK: Write a professional README.md and Project Specification Document.
+        ACT AS: A Senior CTO and Product Manager.
+        TASK: Write a comprehensive Strategic Master Plan and Setup Guide.
         
         CRITICAL RULES:
-        1. NO Feature Code (Do not write models, views, or functions).
-        2. FOCUS on High-Level Overview, Requirements, and Tech Stack.
-        3. INCLUDE 'Getting Started' section with only INITIALIZATION commands (git init, npm install, etc).
-        4. Output formatted as clear Markdown.
+        1. DO NOT WRITE CODE. (No Python classes, no React components, no function bodies).
+        2. FOCUS ON: Architecture, Data Strategy, UI/UX Guidelines, and Best Practices.
+        3. PROVIDE: "Terminal Commands" only for project initialization (pip install, etc).
+        4. TONE: Professional, guiding, authoritative.
         """
         
         user_content = f"""
         PROJECT BLUEPRINT:
         {json.dumps(project_context, indent=2)}
         
-        Please generate a professional README.md that includes:
-        1. Project Title & Executive Summary
-        2. comprehensive Tech Stack Table
-        3. User Requirements List
-        4. System Architecture Summary
-        5. "How to Start" (Standard initialization commands only)
+        Please generate a master markdown document with these exact sections:
+
+        # 1. Executive Summary
+        - Project Vision & Success Criteria.
+        - The "Why" behind the architecture choices.
+
+        # 2. Master Setup Guide (Terminal Only)
+        - Step-by-step shell commands to initialize this specific tech stack.
+        - Dependency installation guide.
+
+        # 3. Backend Strategy (Conceptual)
+        - Database Schema Rules (Explain relationships, don't write SQL).
+        - API Design Patterns (REST vs GraphQL strategy).
+        - Security & Scalability requirements.
+
+        # 4. Frontend & UI/UX Guidelines
+        - Component Hierarchy (Explain the folder structure).
+        - State Management Strategy (When to use Redux/Context).
+        - UI Polishing Guide (Typography, Spacing, Accessibility rules).
+
+        # 5. The "Phase 8" (Post-Setup Lifecycle)
+        - Testing Strategy (What to test and how).
+        - Deployment Pipeline (CI/CD recommendations).
+        - Maintenance Checklist (Logging, Monitoring).
         """
 
         try:
@@ -203,9 +218,7 @@ class AIService:
                 ],
                 temperature=0.3,
             )
-            # Remove <think> blocks if present
-            clean_text = self.clean_json_string(response.choices[0].message.content) 
-            return clean_text
+            return self.clean_json_string(response.choices[0].message.content)
             
         except Exception as e:
             return f"Documentation Error: {str(e)}"

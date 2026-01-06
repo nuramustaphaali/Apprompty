@@ -1,60 +1,148 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="dashboard-container" style="max-width: 1200px; margin: 0 auto;">
-    
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-        <div>
-            <h1 style="margin: 0; font-size: 2em; font-weight: 700; color: #111827;">Projects</h1>
-            <p style="margin: 5px 0 0 0; color: #6b7280;">Manage your AI-architected applications.</p>
+<div style="min-height: 100vh; display: flex; flex-direction: column; font-family: 'Inter', system-ui, -apple-system, sans-serif;">
+
+    <nav style="background: white; border-bottom: 1px solid #e5e7eb; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 35px; height: 35px; background: #111827; color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2em;">
+                🧠
+            </div>
+            <span style="font-size: 1.3em; font-weight: 700; color: #111827; letter-spacing: -0.02em;">Apprompty</span>
         </div>
-        <a href="{% url 'create_project' %}" style="background-color: #111827; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 0.95em; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-            + New Project
-        </a>
-    </div>
 
-    {% if projects %}
-        <div style="display: grid; gap: 25px; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));">
-            {% for project in projects %}
-            <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 25px; display: flex; flex-direction: column; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <div style="flex-grow: 1; max-width: 500px; margin: 0 40px; display: none; @media (min-width: 768px) { display: block; }">
+            <div style="position: relative;">
+                <span style="position: absolute; left: 15px; top: 10px; color: #9ca3af;">🔍</span>
+                <input type="text" placeholder="Search your blueprints..." style="width: 100%; padding: 10px 10px 10px 40px; border: 1px solid #e5e7eb; border-radius: 8px; background: #f9fafb; outline: none; transition: all 0.2s;">
+            </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div style="text-align: right; display: none; @media (min-width: 640px) { display: block; }">
+                <div style="font-weight: 600; font-size: 0.9em; color: #374151;">{{ user.username }}</div>
+                <div style="font-size: 0.8em; color: #6b7280;">Architect</div>
+            </div>
+            <div style="width: 40px; height: 40px; background: #f3f4f6; border-radius: 50%; border: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: center; font-size: 1.2em;">
+                👤
+            </div>
+        </div>
+    </nav>
+
+    <div style="flex-grow: 1; background: #f9fafb; padding: 40px 20px;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+
+            <div style="margin-bottom: 40px;">
+                <h1 style="font-size: 2em; font-weight: 800; color: #111827; margin-bottom: 5px;">Dashboard</h1>
+                <p style="color: #6b7280; margin-bottom: 25px;">Overview of your AI-architected applications.</p>
                 
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <div style="font-size: 0.75em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 10px; border-radius: 20px; 
-                        {% if project.current_phase >= 7 %}background: #dcfce7; color: #15803d;{% elif project.current_phase >= 6 %}background: #f3e8ff; color: #7e22ce;{% else %}background: #f3f4f6; color: #4b5563;{% endif %}">
-                        {% if project.current_phase >= 7 %}Ready to Build{% elif project.current_phase >= 6 %}Architecting{% else %}Planning{% endif %}
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e5e7eb; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                        <div style="color: #6b7280; font-size: 0.85em; font-weight: 600; text-transform: uppercase;">Total Projects</div>
+                        <div style="font-size: 2em; font-weight: 800; color: #111827;">{{ projects|length }}</div>
                     </div>
-                    <span style="font-size: 0.8em; color: #9ca3af;">{{ project.updated_at|date:"M d, Y" }}</span>
-                </div>
-                
-                <h3 style="margin: 0 0 10px 0; font-size: 1.4em; color: #1f2937;">{{ project.name }}</h3>
-                <p style="color: #6b7280; font-size: 0.95em; line-height: 1.5; margin-bottom: 25px; flex-grow: 1;">
-                    {{ project.description|truncatechars:100|default:"No description provided." }}
-                </p>
-
-                <a href="{% url project.action.url project.id %}" 
-                   class="{{ project.action.class }}"
-                   style="display: block; text-align: center; color: white; padding: 12px; border-radius: 8px; font-weight: 600; text-decoration: none; margin-bottom: 15px; transition: opacity 0.2s;">
-                    {{ project.action.label }} &rarr;
-                </a>
-
-                <div style="border-top: 1px solid #f3f4f6; padding-top: 15px; display: flex; justify-content: space-between; font-size: 0.9em;">
-                    <a href="{% url 'project_detail' project.id %}" style="color: #4b5563; text-decoration: none; font-weight: 500;">Overview</a>
-                    <a href="{% url 'delete_project' project.id %}" style="color: #ef4444; text-decoration: none;">Delete</a>
+                    <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e5e7eb; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                        <div style="color: #6b7280; font-size: 0.85em; font-weight: 600; text-transform: uppercase;">AI Engine</div>
+                        <div style="font-size: 1.1em; font-weight: 700; color: #059669; margin-top: 10px; display: flex; align-items: center; gap: 8px;">
+                            <span style="width: 10px; height: 10px; background: #059669; border-radius: 50%;"></span>
+                            DeepSeek Online
+                        </div>
+                    </div>
+                    <a href="{% url 'create_project' %}" style="background: #111827; padding: 20px; border-radius: 12px; text-decoration: none; color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: transform 0.2s;">
+                        <span style="font-size: 1.5em; margin-bottom: 5px;">+</span>
+                        <span style="font-weight: 600;">Create New Project</span>
+                    </a>
                 </div>
             </div>
-            {% endfor %}
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="font-size: 1.2em; font-weight: 700; color: #374151;">Recent Workspaces</h2>
+                <select style="padding: 8px 12px; border: 1px solid #e5e7eb; border-radius: 6px; background: white; color: #4b5563; outline: none;">
+                    <option>All Projects</option>
+                    <option>In Progress</option>
+                    <option>Completed</option>
+                </select>
+            </div>
+
+            {% if projects %}
+                <div style="display: grid; gap: 25px; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));">
+                    {% for project in projects %}
+                    <div class="project-card" style="background: white; border: 1px solid #e5e7eb; border-radius: 16px; padding: 25px; display: flex; flex-direction: column; transition: all 0.2s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                            <div style="width: 45px; height: 45px; background: #f3f4f6; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em;">
+                                {% if project.current_phase >= 7 %}🚀{% elif project.current_phase >= 6 %}🏗️{% else %}📝{% endif %}
+                            </div>
+                            <div style="font-size: 0.75em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 6px 12px; border-radius: 20px; 
+                                {% if project.current_phase >= 7 %}background: #dcfce7; color: #15803d;{% elif project.current_phase >= 6 %}background: #f3e8ff; color: #7e22ce;{% else %}background: #f3f4f6; color: #4b5563;{% endif %}">
+                                {% if project.current_phase >= 7 %}Ready{% elif project.current_phase >= 6 %}Architecting{% else %}Planning{% endif %}
+                            </div>
+                        </div>
+                        
+                        <h3 style="margin: 0 0 8px 0; font-size: 1.3em; font-weight: 700; color: #111827;">{{ project.name }}</h3>
+                        <p style="color: #6b7280; font-size: 0.9em; line-height: 1.6; margin-bottom: 25px; flex-grow: 1;">
+                            {{ project.description|truncatechars:90|default:"No description provided." }}
+                        </p>
+
+                        <a href="{% url project.action.url project.id %}" 
+                           class="{{ project.action.class }}"
+                           style="display: block; text-align: center; color: white; padding: 12px; border-radius: 10px; font-weight: 600; text-decoration: none; margin-bottom: 15px; font-size: 0.95em; transition: opacity 0.2s;">
+                            {{ project.action.label }} &rarr;
+                        </a>
+
+                        <div style="border-top: 1px solid #f9fafb; padding-top: 15px; display: flex; justify-content: space-between; font-size: 0.85em; color: #9ca3af;">
+                            <span>Updated {{ project.updated_at|date:"M d" }}</span>
+                            <div style="display: flex; gap: 15px;">
+                                <a href="{% url 'project_detail' project.id %}" style="color: #4b5563; text-decoration: none; font-weight: 600;">Overview</a>
+                                <a href="{% url 'delete_project' project.id %}" style="color: #ef4444; text-decoration: none;">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div style="text-align: center; padding: 80px 20px; background: white; border: 2px dashed #e5e7eb; border-radius: 16px; max-width: 600px; margin: 40px auto;">
+                    <div style="font-size: 3em; margin-bottom: 20px; opacity: 0.5;">📂</div>
+                    <h3 style="color: #111827; margin-bottom: 10px; font-size: 1.2em;">No projects found</h3>
+                    <p style="color: #6b7280; margin-bottom: 30px;">Start your journey by creating your first AI-powered blueprint.</p>
+                    <a href="{% url 'create_project' %}" style="color: #2563eb; font-weight: 600; text-decoration: none;">+ Start New Project</a>
+                </div>
+            {% endif %}
+
         </div>
-    {% else %}
-        <div style="text-align: center; padding: 100px 20px; background: #f9fafb; border: 2px dashed #e5e7eb; border-radius: 16px;">
-            <h3 style="color: #374151; margin-bottom: 10px;">No projects yet</h3>
-            <p style="color: #6b7280; margin-bottom: 30px;">Let's build something amazing together.</p>
-            <a href="{% url 'create_project' %}" style="color: #2563eb; font-weight: 600;">Start First Project &rarr;</a>
+    </div>
+
+    <footer style="background: white; border-top: 1px solid #e5e7eb; padding: 30px 20px; text-align: center;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 15px;">
+            <div style="font-weight: 700; color: #111827; font-size: 1.1em;">🧠 Apprompty</div>
+            <div style="display: flex; gap: 20px; color: #6b7280; font-size: 0.9em;">
+                <a href="#" style="text-decoration: none; color: inherit;">Documentation</a>
+                <a href="#" style="text-decoration: none; color: inherit;">API Status</a>
+                <a href="#" style="text-decoration: none; color: inherit;">Support</a>
+            </div>
+            <div style="color: #9ca3af; font-size: 0.8em;">
+                &copy; {% now "Y" %} Apprompty AI. Powered by DeepSeek R1 & Django.
+            </div>
         </div>
-    {% endif %}
+    </footer>
+
 </div>
 
 <style>
-    /* Dynamic Button Colors */
+    /* Card Hover Effect */
+    .project-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+    }
+    
+    /* Input Focus */
+    input:focus {
+        background: white !important;
+        border-color: #2563eb !important;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    /* Button Colors from Logic */
     .bg-blue-600 { background-color: #2563eb; }
     .bg-blue-600:hover { background-color: #1d4ed8; }
     

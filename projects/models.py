@@ -38,7 +38,7 @@ class Project(models.Model):
     # Future-proofing for AI Data (Stored as JSON in SQLite)
     requirements_data = models.JSONField(default=dict, blank=True)
     blueprint_data = models.JSONField(default=dict, blank=True)
-    
+    documentation_md = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
