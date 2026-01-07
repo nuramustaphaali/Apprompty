@@ -254,14 +254,23 @@ class AIService:
                 - **Directory Structure**: ASCII tree of the backend folder.
                 - **Key Libraries**: List of essential packages (e.g., DRF, Celery, Stripe).
             """,
-            'database': """
-                TASK: Write the 'Database Master Schema'.
-                CONTEXT: Design the perfect database for this specific app.
+           'database': """
+                TASK: Write the 'Database Schema' as SQL Code.
+                CONTEXT: The user needs to copy-paste this to create their database.
+                
+                CRITICAL RULE: 
+                - DO NOT use text descriptions or XML. 
+                - OUTPUT ONLY A VALID SQL SCRIPT inside a markdown code block.
+                
                 OUTPUT SECTIONS:
-                - **ER Diagram Description**: How data relates.
-                - **Table List**: Detailed list of ALL tables (Users, Orders, etc).
-                - **Fields & Types**: For each table, list key columns (id, foreign_keys).
-                - **Relationships**: Explicitly state One-to-Many / Many-to-Many links.
+                1. **ER Diagram Summary** (2 sentences text).
+                2. **The SQL Schema**:
+                ```sql
+                CREATE TABLE users (
+                    id INTEGER PRIMARY KEY,
+                    ...
+                );
+                ```
             """,
             'frontend': """
                 TASK: Write the 'Frontend Engineering Guide'.

@@ -374,53 +374,58 @@ def project_docs(request, pk):
 
 # ... imports ...
 import markdown
+# projects/views.py
 
 @login_required
 @require_POST
 def get_doc_section(request, pk):
-    """
-    AJAX: Fetches or Generates a specific documentation section.
-    """
     project = get_object_or_404(Project, pk=pk, user=request.user)
     
     try:
         data = json.loads(request.body)
-        section_key = data.get('section') # e.g., 'intro', 'setup'
+        section_key = data.get('section')
         force_regen = data.get('regenerate', False)
         
-        # 1. Load existing docs
         current_docs = project.docs_data or {}
         
-        # 2. If exists and not forcing regen, return saved data
+        # 1. Determine Content (Load or Generate)
         if section_key in current_docs and not force_regen:
             md_content = current_docs[section_key]
-            return JsonResponse({
-                'markdown': md_content, 
-                'html': markdown.markdown(md_content, extensions=['fenced_code', 'tables'])
-            })
+        else:
+            # Generate new
+            print(f"--- 🧠 GENERATING SECTION: {section_key} ---") # Debug Print
+            ai = AIService()
+            context = {
+                'blueprint': project.blueprint_data,
+                'requirements': project.requirements_data.get('answers', {})
+            }
+            md_content = ai.generate_doc_section(context, section_key)
+            
+            # Debug: Print first 100 chars to terminal to prove it exists
+            print(f"--- ✅ RESULT: {md_content[:100]}... ---")
+            
+            current_docs[section_key] = md_content
+            project.docs_data = current_docs
+            project.save()
 
-        # 3. Generate New Content
-        ai = AIService()
-        context = {
-            'blueprint': project.blueprint_data,
-            'requirements': project.requirements_data.get('answers', {})
-        }
+        # 2. Convert to HTML (With Safety Check)
+        html_content = markdown.markdown(md_content, extensions=['fenced_code', 'tables'])
         
-        new_md = ai.generate_doc_section(context, section_key)
-        
-        # 4. Save to DB (Update only this key)
-        current_docs[section_key] = new_md
-        project.docs_data = current_docs
-        project.save()
-        
+        # FIX: If HTML is empty or just whitespace, fallback to pre-formatted text
+        # This handles cases where AI output only invisible tags
+        if not html_content.strip():
+            html_content = f"<pre style='white-space: pre-wrap;'>{md_content}</pre>"
+
         return JsonResponse({
-            'markdown': new_md,
-            'html': markdown.markdown(new_md, extensions=['fenced_code', 'tables'])
+            'markdown': md_content,
+            'html': html_content
         })
 
     except Exception as e:
+        print(f"❌ ERROR: {str(e)}")
         return JsonResponse({'error': str(e)}, status=500)
 
+        
 @login_required
 def project_docs_shell(request, pk):
     """

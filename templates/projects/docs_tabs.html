@@ -248,7 +248,46 @@
 
     /* Markdown Typography Tweaks */
     .prose h1 { font-size: 1.6em; }
-    .prose pre { padding: 15px; font-size: 0.85em; }
+    /* Update this specific style to ensure code blocks have a background */
+    .prose pre { 
+        background: #1f2937; /* Dark background */
+        color: #f3f4f6;      /* Light text */
+        padding: 20px; 
+        border-radius: 8px; 
+        overflow-x: auto; 
+        margin: 20px 0; 
+        border: 1px solid #374151;
+    }
+
+    /* Force Table Visibility */
+    .prose table { 
+        width: 100%; 
+        border-collapse: collapse; 
+        margin: 25px 0; 
+        font-size: 0.95em; 
+        background-color: white; /* Ensure background is white */
+        color: #374151; /* Ensure text is dark */
+        border: 1px solid #e5e7eb;
+    }
+    
+    .prose th { 
+        background-color: #f3f4f6; /* Light gray header */
+        color: #111827; /* Black header text */
+        text-align: left; 
+        padding: 12px; 
+        border: 1px solid #e5e7eb; 
+        font-weight: 700; 
+    }
+    
+    .prose td { 
+        padding: 12px; 
+        border: 1px solid #e5e7eb; 
+        color: #4b5563; 
+        vertical-align: top;
+    }
+    
+    /* Handle Overflow for wide tables */
+    .prose { overflow-x: auto; }
     
     @keyframes pulse {
         0% { opacity: 0.6; transform: scale(0.95); }
