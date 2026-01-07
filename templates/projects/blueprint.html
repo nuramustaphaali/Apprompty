@@ -1,63 +1,71 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div style="max-width: 1200px; margin: 0 auto;">
-    <div style="margin-bottom: 25px;">
-        <a href="{% url 'dashboard' %}" style="color: #6b7280; text-decoration: none; font-weight: 500;">&larr; Back to Dashboard</a>
-    </div>
+<div class="bp-container">
 
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-    <div>
-        <h1 style="margin: 0; color: #111827;">Technical Blueprint</h1>
-        <p style="margin: 5px 0 0 0; color: #6b7280;">Architecture Version 1.0</p>
-    </div>
-    
-    <a href="{% url 'project_docs' project.id %}" style="background: #059669; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-        🚀 Open Master Docs
-    </a>
-</div>
-
-    <div style="display: grid; grid-template-columns: 250px 1fr; gap: 30px;">
+    <div class="bp-header">
+        <div>
+            <h1 class="bp-title">{{ project.name }}</h1>
+            <p class="bp-subtitle">Technical Architecture Blueprint v1.0</p>
+        </div>
         
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-            <button onclick="showTab('overview')" class="tab-btn active" id="btn-overview">Overview</button>
-            <button onclick="showTab('architecture')" class="tab-btn" id="btn-architecture">System Architecture</button>
-            <button onclick="showTab('frontend')" class="tab-btn" id="btn-frontend">Frontend Structure</button>
-            <button onclick="showTab('backend')" class="tab-btn" id="btn-backend">Backend & DB</button>
-            <button onclick="showTab('api')" class="tab-btn" id="btn-api">API Specifications</button>
-            <button onclick="showTab('phases')" class="tab-btn" id="btn-phases">Dev Roadmap</button>
-            
-            <div style="margin-top: 30px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
-                <a href="{% url 'dashboard' %}" style="color: #6b7280; text-decoration: none; font-size: 0.9em;">&larr; Exit to Dashboard</a>
-            </div>
+        <div class="header-actions">
+            <a href="{% url 'dashboard' %}" class="btn-secondary">Exit</a>
+            <a href="{% url 'project_docs' project.id %}" class="btn-primary">
+                🚀 Open Master Docs
+            </a>
+        </div>
+    </div>
+
+    <div class="bp-layout">
+        
+        <div class="bp-sidebar">
+            <button onclick="showTab('overview')" class="nav-item active" id="btn-overview">📡 Overview</button>
+            <button onclick="showTab('frontend')" class="nav-item" id="btn-frontend">🎨 Frontend Stack</button>
+            <button onclick="showTab('backend')" class="nav-item" id="btn-backend">⚙️ Backend Core</button>
+            <button onclick="showTab('api')" class="nav-item" id="btn-api">🔌 API Design</button>
+            <button onclick="showTab('phases')" class="nav-item" id="btn-phases">📅 Roadmap</button>
         </div>
 
-        <div>
-            <div id="tab-overview" class="tab-content">
+        <div class="bp-content">
+            
+            <div id="tab-overview" class="tab-pane">
                 <div class="card">
                     <h2>Executive Summary</h2>
-                    <p>{{ bp.overview }}</p>
+                    <p class="text-lg">{{ bp.overview }}</p>
                 </div>
-            </div>
 
-            <div id="tab-architecture" class="tab-content" style="display: none;">
-                <div class="card">
+                <div class="card mt-4">
                     <h2>System Architecture</h2>
-                    <p><strong>Style:</strong> {{ bp.architecture.style }}</p>
-                    <div style="background: #f8fafc; padding: 20px; border-radius: 8px; border-left: 4px solid #3b82f6; margin-top: 20px;">
-                        {{ bp.architecture.diagram_description }}
+                    <div class="badge-row">
+                        <span class="badge badge-purple">{{ bp.architecture.style }}</span>
+                    </div>
+                    <div class="diagram-box">
+                        <p><strong>Data Flow:</strong> {{ bp.architecture.diagram_description }}</p>
                     </div>
                 </div>
             </div>
 
-            <div id="tab-frontend" class="tab-content" style="display: none;">
+            <div id="tab-frontend" class="tab-pane" style="display: none;">
                 <div class="card">
                     <h2>Frontend Engineering</h2>
-                    <p><strong>Framework:</strong> {{ bp.frontend.framework }}</p>
-                    <p><strong>State Management:</strong> {{ bp.frontend.state_management }}</p>
+                    <div class="grid-2">
+                        <div>
+                            <h3>Framework</h3>
+                            <span class="badge badge-blue">{{ bp.frontend.framework }}</span>
+                        </div>
+                        <div>
+                            <h3>State Management</h3>
+                            <span class="badge badge-blue">{{ bp.frontend.state_management }}</span>
+                        </div>
+                        <div>
+                            <h3>UI Library</h3>
+                            <span class="badge badge-blue">{{ bp.frontend.ui_library|default:"Custom CSS" }}</span>
+                        </div>
+                    </div>
                     
-                    <h3>Folder Structure</h3>
-                    <ul class="tech-list">
+                    <h3>Directory Structure</h3>
+                    <ul class="file-list">
                         {% for item in bp.frontend.structure %}
                         <li>📂 {{ item }}</li>
                         {% endfor %}
@@ -65,20 +73,29 @@
                 </div>
             </div>
 
-            <div id="tab-backend" class="tab-content" style="display: none;">
+            <div id="tab-backend" class="tab-pane" style="display: none;">
                 <div class="card">
                     <h2>Backend Engineering</h2>
-                    <p><strong>Framework:</strong> {{ bp.backend.framework }}</p>
-                    
-                    <h3>Core Data Models</h3>
-                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+                    <div class="grid-2">
+                        <div>
+                            <h3>Framework</h3>
+                            <span class="badge badge-green">{{ bp.backend.framework }}</span>
+                        </div>
+                        <div>
+                            <h3>Database</h3>
+                            <span class="badge badge-green">{{ bp.backend.database }}</span>
+                        </div>
+                    </div>
+
+                    <h3 class="mt-4">Core Models</h3>
+                    <div class="badge-row">
                         {% for model in bp.backend.models %}
-                        <span class="tag tag-purple">{{ model }}</span>
+                        <span class="badge badge-gray">📦 {{ model }}</span>
                         {% endfor %}
                     </div>
 
-                    <h3>Microservices / Services</h3>
-                    <ul class="tech-list">
+                    <h3 class="mt-4">Services</h3>
+                    <ul class="check-list">
                         {% for service in bp.backend.services %}
                         <li>⚙️ {{ service }}</li>
                         {% endfor %}
@@ -86,32 +103,44 @@
                 </div>
             </div>
 
-            <div id="tab-api" class="tab-content" style="display: none;">
+            <div id="tab-api" class="tab-pane" style="display: none;">
                 <div class="card">
                     <h2>API Strategy</h2>
-                    <div style="background: #1e293b; color: #10b981; padding: 20px; border-radius: 8px; font-family: monospace;">
+                    <span class="badge badge-yellow">{{ bp.api.style }}</span>
+                    
+                    <h3 class="mt-4">Key Endpoints</h3>
+                    <div class="code-block">
                         {% for endpoint in bp.api.endpoints %}
-                        <div style="margin-bottom: 8px;">{{ endpoint }}</div>
+                        <div class="code-line">{{ endpoint }}</div>
                         {% endfor %}
                     </div>
                 </div>
             </div>
 
-            <div id="tab-phases" class="tab-content" style="display: none;">
+            <div id="tab-phases" class="tab-pane" style="display: none;">
                 <div class="card">
-                    <h2>Implementation Roadmap</h2>
-                    <p style="color: #6b7280; margin-bottom: 20px;">Click the green button at the top to start building.</p>
-                    
-                    {% for phase in bp.phases %}
-                    <div style="margin-bottom: 25px;">
-                        <h3 style="color: #111827;">Phase {{ phase.phase }}: {{ phase.title }}</h3>
-                        <ul style="color: #4b5563;">
-                            {% for task in phase.tasks %}
-                            <li>{{ task }}</li>
-                            {% endfor %}
-                        </ul>
+                    <h2>Development Roadmap</h2>
+                    <div class="timeline">
+                        {% for phase in bp.phases %}
+                        <div class="timeline-item">
+                            <div class="timeline-header">
+                                <span class="phase-num">Phase {{ phase.phase }}</span>
+                                <span class="phase-title">{{ phase.title }}</span>
+                            </div>
+                            <ul class="timeline-tasks">
+                                {% for task in phase.tasks %}
+                                <li>{{ task }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
+                    
+                    <div style="margin-top: 30px; text-align: center;">
+                        <a href="{% url 'project_docs' project.id %}" class="btn-primary" style="width: 100%; display: block; text-align: center;">
+                            Start Implementation (Phase 7) &rarr;
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -119,19 +148,12 @@
     </div>
 </div>
 
-<!-- <div style="grid-column: 1 / -1; margin-top: 50px; border-top: 2px dashed #dc2626; padding-top: 20px;">
-        <h3 style="color: #dc2626;">🐞 Debug: Raw AI Output</h3>
-        <p style="font-size: 0.9em; color: #6b7280;">If the section above is empty, check the JSON structure below.</p>
-        <pre style="background: #111827; color: #10b981; padding: 15px; border-radius: 8px; overflow-x: auto; font-size: 0.8em;">
-{{ bp|pprint }}
-        </pre>
-    </div> -->
-
 <script>
     function showTab(tabName) {
-        // Hide all
-        document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        // Hide all panes
+        document.querySelectorAll('.tab-pane').forEach(el => el.style.display = 'none');
+        // Deactivate buttons
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
         
         // Show selected
         document.getElementById('tab-' + tabName).style.display = 'block';
@@ -140,25 +162,93 @@
 </script>
 
 <style>
-    .card { background: white; padding: 30px; border: 1px solid #e5e7eb; border-radius: 12px; }
-    
-    .tab-btn {
-        text-align: left; padding: 12px 15px; border: none; background: transparent;
-        color: #6b7280; font-weight: 500; cursor: pointer; border-radius: 6px;
-        transition: all 0.2s;
+    /* --- Base Variables --- */
+    :root {
+        --bg: #f9fafb;
+        --border: #e5e7eb;
+        --primary: #111827;
+        --accent: #2563eb;
     }
-    .tab-btn:hover { background: #f3f4f6; color: #111827; }
-    .tab-btn.active { background: #eff6ff; color: #2563eb; font-weight: 600; }
+
+    /* --- Container --- */
+    .bp-container { max-width: 1200px; margin: 0 auto; min-height: 90vh; display: flex; flex-direction: column; padding: 20px; }
     
-    .tech-list { list-style: none; padding: 0; }
-    .tech-list li { padding: 8px 0; border-bottom: 1px solid #f3f4f6; color: #4b5563; }
+    .bp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
+    .bp-title { font-size: 1.8em; font-weight: 800; color: var(--primary); margin: 0; }
+    .bp-subtitle { color: #6b7280; margin: 0; font-size: 0.95em; }
     
-    .tag { padding: 4px 10px; border-radius: 4px; font-size: 0.85em; font-weight: 500; }
-    .tag-purple { background: #fdf2f8; color: #db2777; border: 1px solid #fce7f3; }
+    .header-actions { display: flex; gap: 10px; }
+
+    /* --- Buttons --- */
+    .btn-secondary { padding: 10px 20px; border: 1px solid var(--border); background: white; color: #374151; border-radius: 8px; text-decoration: none; font-weight: 600; }
+    .btn-primary { padding: 10px 20px; background: #059669; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    .btn-primary:hover { background: #047857; }
+
+    /* --- Layout --- */
+    .bp-layout { display: flex; gap: 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: white; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); min-height: 500px; }
+
+    /* --- Sidebar --- */
+    .bp-sidebar { width: 250px; background: #f9fafb; border-right: 1px solid var(--border); padding: 15px; display: flex; flex-direction: column; gap: 5px; flex-shrink: 0; }
     
-    h2 { margin-top: 0; color: #111827; border-bottom: 1px solid #f3f4f6; padding-bottom: 15px; margin-bottom: 20px; }
+    .nav-item { text-align: left; padding: 12px 15px; border: 1px solid transparent; background: transparent; color: #4b5563; font-weight: 500; cursor: pointer; border-radius: 8px; transition: all 0.2s; white-space: nowrap; }
+    .nav-item:hover { background: #e5e7eb; color: var(--primary); }
+    .nav-item.active { background: white; border-color: var(--border); color: var(--accent); font-weight: 700; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+
+    /* --- Content --- */
+    .bp-content { flex-grow: 1; padding: 30px; overflow-y: auto; background: white; }
+    
+    .card { margin-bottom: 30px; }
+    .card h2 { font-size: 1.5em; border-bottom: 2px solid #f3f4f6; padding-bottom: 10px; margin-bottom: 20px; color: var(--primary); }
+    .card h3 { font-size: 1.1em; color: #4b5563; margin-top: 25px; margin-bottom: 10px; font-weight: 700; }
+    
+    .text-lg { font-size: 1.1em; line-height: 1.6; color: #374151; }
+
+    /* --- UI Elements --- */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    
+    .badge-row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .badge { padding: 6px 12px; border-radius: 6px; font-size: 0.9em; font-weight: 600; display: inline-block; }
+    .badge-purple { background: #f3e8ff; color: #7e22ce; }
+    .badge-blue { background: #eff6ff; color: #2563eb; }
+    .badge-green { background: #dcfce7; color: #15803d; }
+    .badge-yellow { background: #fef9c3; color: #a16207; }
+    .badge-gray { background: #f3f4f6; color: #374151; }
+
+    .diagram-box { background: #f8fafc; border: 1px dashed #cbd5e1; padding: 20px; border-radius: 8px; margin-top: 15px; color: #475569; }
+    
+    .file-list, .check-list { list-style: none; padding: 0; }
+    .file-list li { padding: 8px 0; border-bottom: 1px solid #f3f4f6; color: #4b5563; font-family: monospace; }
+    .check-list li { padding: 8px 0; color: #374151; }
+
+    .code-block { background: #1e293b; color: #e2e8f0; padding: 20px; border-radius: 8px; font-family: monospace; }
+    .code-line { margin-bottom: 8px; border-bottom: 1px solid #334155; padding-bottom: 4px; }
+
+    /* --- Timeline --- */
+    .timeline-item { margin-bottom: 25px; border-left: 3px solid #e5e7eb; padding-left: 20px; position: relative; }
+    .timeline-header { margin-bottom: 10px; }
+    .phase-num { font-size: 0.8em; text-transform: uppercase; color: #9ca3af; font-weight: 700; display: block; }
+    .phase-title { font-size: 1.2em; font-weight: 700; color: var(--primary); }
+    .timeline-tasks { color: #4b5563; padding-left: 20px; }
+    .timeline-tasks li { margin-bottom: 5px; }
+
+    /* --- Responsive Mobile --- */
+    @media (max-width: 768px) {
+        .bp-container { padding: 10px; }
+        .bp-layout { flex-direction: column; }
+        
+        /* Mobile Horizontal Scroll Sidebar */
+        .bp-sidebar { 
+            width: 100%; border-right: none; border-bottom: 1px solid var(--border);
+            flex-direction: row; overflow-x: auto; padding: 10px;
+            -ms-overflow-style: none; scrollbar-width: none;
+        }
+        .bp-sidebar::-webkit-scrollbar { display: none; }
+        
+        .nav-item { padding: 8px 15px; border: 1px solid var(--border); flex-shrink: 0; }
+        .nav-item.active { border-color: var(--accent); background: #eff6ff; }
+        
+        .grid-2 { grid-template-columns: 1fr; }
+        .bp-content { padding: 20px; }
+    }
 </style>
-
-
-
- {% endblock %}
+{% endblock %}

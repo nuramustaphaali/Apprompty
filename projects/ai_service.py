@@ -48,83 +48,77 @@ class AIService:
         return json_str
 
     def generate_blueprint(self, project_data):
-        # UPDATED PROMPT: Strict limits to prevent cutoff
+        # UPDATED PROMPT: Richer, Professional, Specific
         system_prompt = """
-        ACT AS: A Senior Software Architect.
-        TASK: Generate a technical blueprint in JSON.
+        ACT AS: A Senior Principal Software Architect.
+        TASK: Generate a high-fidelity technical blueprint in JSON.
         
-        CRITICAL TOKEN LIMIT RULES:
-        1. OUTPUT MUST BE VALID JSON ONLY.
-        2. NO conversational text.
-        3. LIST LIMIT: Max 3 items per list (e.g., 3 tasks, 3 models).
-        4. BREVITY: Keep descriptions under 10 words.
-        5. All keys must be lowercase.
+        CRITICAL INSTRUCTIONS:
+        1. CUSTOMIZATION: Use the INPUT REQUIREMENTS strictly. If they asked for "Video Streaming", include "FFmpeg" or "HLS" in the backend.
+        2. SPECIFICITY: Do not say "Database". Say "PostgreSQL 16" or "MongoDB". Do not say "Auth". Say "JWT via SimpleJWT".
+        3. JSON FORMAT: Output valid JSON only. No markdown.
+        4. LIMITS: Max 6 items per list (to prevent timeouts). Keep descriptions professional.
         """
 
         user_content = f"""
-        INPUT REQUIREMENTS:
+        USER PROJECT REQUIREMENTS:
         {json.dumps(project_data, indent=2)}
 
-        REQUIRED JSON STRUCTURE:
+        REQUIRED JSON OUTPUT STRUCTURE:
         {{
-            "overview": "Short summary...",
+            "overview": "2-sentence executive technical summary.",
             "architecture": {{
-                "style": "Monolithic/Microservices",
-                "diagram_description": "Brief flow description"
+                "style": "e.g. Event-Driven Microservices / Modular Monolith",
+                "diagram_description": "A clear description of how data flows from user to DB."
             }},
             "frontend": {{
-                "framework": "React/Vue/etc",
-                "structure": ["/src", "/components"],
-                "state_management": "Redux/Context"
+                "framework": "Specific Framework & Version",
+                "structure": ["/src/features", "/src/shared", "/src/app"],
+                "state_management": "Specific Library",
+                "ui_library": "e.g. Tailwind / ShadCN / MUI"
             }},
             "backend": {{
-                "framework": "Django/Node",
-                "models": ["User", "Order"],
-                "services": ["AuthService"]
+                "framework": "Specific Framework",
+                "database": "Specific Database Engine",
+                "models": ["List of core domain entities (e.g. User, Subscription)"],
+                "services": ["List of distinct logic layers (e.g. PaymentService, VideoTranscoder)"]
             }},
             "api": {{
-                "endpoints": ["GET /api/users"]
-            }},
-            "ui_ux": {{
-                "theme": "Dark/Light",
-                "components": ["Navbar", "Sidebar"]
+                "style": "REST / GraphQL",
+                "endpoints": ["List of 5 critical high-level endpoints"]
             }},
             "phases": [
-                {{ "phase": 1, "title": "Setup", "tasks": ["Init Repo", "Config DB"] }}
+                {{ "phase": 1, "title": "Foundation", "tasks": ["3 specific setup tasks"] }},
+                {{ "phase": 2, "title": "Core Logic", "tasks": ["3 specific coding tasks"] }},
+                {{ "phase": 3, "title": "Polish & Ship", "tasks": ["3 specific finishing tasks"] }}
             ]
         }}
         """
 
         try:
+            # Using a slightly higher temperature for creativity, but low enough for valid JSON
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_content},
                 ],
-                temperature=0.3,
-                max_tokens=3000, # Increased limit
+                temperature=0.2, 
+                max_tokens=3500,
             )
             
             raw_content = response.choices[0].message.content
             clean_text = self.clean_json_string(raw_content)
             
             try:
-                # Attempt 1: Parse directly
                 return json.loads(clean_text)
             except json.JSONDecodeError:
-                # Attempt 2: Repair truncated JSON
-                print("⚠️ JSON Truncated. Attempting repair...")
-                repaired_text = self.repair_truncated_json(clean_text)
-                try:
-                    return json.loads(repaired_text)
-                except:
-                    # Final Fallback
-                    return {"error": "JSON Cutoff", "raw": raw_content}
+                # Fallback repair if it gets cut off
+                repaired = self.repair_truncated_json(clean_text)
+                return json.loads(repaired)
 
         except Exception as e:
-            return {"error": "Service Failed", "raw": str(e)}
-
+            return {"error": "Blueprint Generation Failed", "raw": str(e)}
     def generate_task_guide(self, project_context, current_task):
         system_prompt = """
         ACT AS: A Senior Lead Developer.
@@ -223,70 +217,111 @@ class AIService:
         except Exception as e:
             return f"Documentation Error: {str(e)}"
 
+# projects/ai_service.py
 # ... imports ...
 
     def generate_doc_section(self, project_context, section_key):
         """
-        Generates ONE specific section of the documentation to save tokens.
+        Generates granular, high-value documentation sections.
         """
         
-        # 1. Define Prompts for each Section
+        # 1. Define 8 Specialized Prompts
         prompts = {
-            'intro': """
-                TASK: Write the 'Executive Summary' and 'Vision'.
-                CONTENT:
-                - Project Title & High-level purpose.
-                - The "Why": Business value and problem solved.
-                - Success Criteria: How do we know it works?
-                - NO CODE. Markdown format.
+            'overview': """
+                TASK: Write the 'Executive Vision & Project Plan'.
+                CONTEXT: The user wants to build a specific app described in the inputs.
+                OUTPUT SECTIONS:
+                - **The Core Concept**: A pitch-perfect summary of what we are building.
+                - **Target Audience**: Who is this for?
+                - **Success Metrics**: What defines 'done'?
+                - **The "Vibe"**: Describe the feeling/experience of the app.
             """,
-            'setup': """
-                TASK: Write the 'Master Setup Guide'.
-                CONTENT:
-                - Prerequisites e.g (Node, Python, Docker versions).
-                - Terminal Commands for initialization (git init, pip install, etc).
-                - Environment Variable setup (.env example).
-                - NO Application Code (No views/models), ONLY Setup commands.
+            'features': """
+                TASK: Write the 'Platform Feature Specification'.
+                CONTEXT: Based on the user's intent, list the concrete features.
+                OUTPUT SECTIONS:
+                - **User Stories**: "As a user, I can..." list.
+                - **Core Modules**: The main functional blocks (e.g., Auth, Payments, Dashboards).
+                - **Edge Cases**: Specific tricky scenarios to handle.
+                - **MVP Scope**: What features are essential for version 1.0 vs later.
             """,
             'backend': """
-                TASK: Write the 'Backend Strategy'.
-                CONTENT:
-                - Database Table Data NOT Schema Description (Relationships, key fields) keep it short.
-                - API Architecture (REST/GraphQL endpoints logic) keep it short nut full.
-                - Authentication Strategy (JWT, OAuth details) short.
-                - Security measures, very consise.
+                TASK: Write the 'Backend Architecture Strategy'.
+                CONTEXT: Use the specific backend tech selected by the user (Django/Node/etc).
+                OUTPUT SECTIONS:
+                - **Tech Stack**: Justify the choice of framework & tools.
+                - **Server Architecture**: Monolith vs Microservices decision & reasoning.
+                - **Directory Structure**: ASCII tree of the backend folder.
+                - **Key Libraries**: List of essential packages (e.g., DRF, Celery, Stripe).
+            """,
+            'database': """
+                TASK: Write the 'Database Master Schema'.
+                CONTEXT: Design the perfect database for this specific app.
+                OUTPUT SECTIONS:
+                - **ER Diagram Description**: How data relates.
+                - **Table List**: Detailed list of ALL tables (Users, Orders, etc).
+                - **Fields & Types**: For each table, list key columns (id, foreign_keys).
+                - **Relationships**: Explicitly state One-to-Many / Many-to-Many links.
             """,
             'frontend': """
-                TASK: Write the 'Frontend & UI Guidelines'.
-                CONTENT:
-                - Component Hierarchy (Folder structure explanation).
-                - State Management Strategy.
-                - UI/UX Rules (Color usage, Typography, Accessibility).
-                - Critical Libraries list.
+                TASK: Write the 'Frontend Engineering Guide'.
+                CONTEXT: Use the user's chosen frontend framework (React/Vue/etc).
+                OUTPUT SECTIONS:
+                - **Component Architecture**: How to split the UI (Atoms/Molecules).
+                - **State Management**: Strategy (Redux/Zustand/Context).
+                - **Routing Strategy**: List of main client-side routes.
+                - **Folder Structure**: ASCII tree of the frontend `src` folder.
             """,
-            'lifecycle': """
-                TASK: Write the 'Last Lifecycle'.
-                CONTENT:
-                - Testing Strategy (Unit vs E2E).
-                - Deployment Pipeline (CI/CD suggestions).
-                - Maintenance (Logging, Monitoring).
-                - Future Roadmap suggestions.
+            'ui_ux': """
+                TASK: Write the 'UI/UX & Skills.md Guide'.
+                CONTEXT: Create a 'cursor rules' style guide for the AI coder.
+                OUTPUT SECTIONS:
+                - **Design System**: Colors, Typography, Spacing variables.
+                - **Component Rules**: Rules for writing clean UI code (e.g., "Use functional components").
+                - **Accessibility**: ARIA labels and contrast rules.
+                - **The "Skills.md"**: A distinct block of rules to copy-paste into an AI editor.
+            """,
+            'api': """
+                TASK: Write the 'API Specification'.
+                CONTEXT: Define the communication layer.
+                OUTPUT SECTIONS:
+                - **Authentication Flow**: How login/token refresh works.
+                - **Endpoints List**: Grouped by resource (Auth, Users, Products).
+                - **Request/Response Examples**: JSON snippets for key endpoints.
+                - **Error Handling**: Standard error codes (400 vs 401 vs 403).
+            """,
+            'setup': """
+                TASK: Write the 'Master Terminal Setup Guide'.
+                CONTEXT: The exact commands to boot this from zero.
+                OUTPUT SECTIONS:
+                - **Prerequisites**: Node/Python versions.
+                - **Step 1: Backend Init**: `django-admin startproject` etc.
+                - **Step 2: Frontend Init**: `npm create vite@latest` etc.
+                - **Step 3: Environment**: `.env.example` file content.
+                - **Step 4: Running It**: Command to start both servers.
             """
         }
 
-        # 2. Get the specific prompt
-        specific_instruction = prompts.get(section_key, prompts['intro'])
+        # 2. Get the specific prompt (Default to overview if missing)
+        specific_instruction = prompts.get(section_key, prompts['overview'])
 
         system_prompt = f"""
-        ACT AS: A Senior CTO.
+        ACT AS: A World-Class Software Architect for "Vibecoders".
+        YOUR GOAL: Create specific, actionable, high-quality documentation.
+        AVOID: Generic fluff. Do not say "Use a database". Say "Use PostgreSQL because..."
+        
         {specific_instruction}
         
-        CRITICAL: Output valid Markdown. Be professional and strategic.
+        CRITICAL: Output valid Markdown.
         """
         
+        # We include the User's specific answers to ensure it's CUSTOM
         user_content = f"""
-        PROJECT BLUEPRINT:
-        {json.dumps(project_context, indent=2)}
+        PROJECT CONTEXT (The User's specific answers):
+        {json.dumps(project_context.get('requirements', {}), indent=2)}
+        
+        AI BLUEPRINT (Draft):
+        {json.dumps(project_context.get('blueprint', {}), indent=2)}
         """
 
         try:
@@ -296,7 +331,7 @@ class AIService:
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_content},
                 ],
-                temperature=0.3,
+                temperature=0.3, 
             )
             return self.clean_json_string(response.choices[0].message.content)
             
