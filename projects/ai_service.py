@@ -251,7 +251,7 @@ class AIService:
             'backend': """
                 TASK: Write the 'Backend Strategy'.
                 CONTENT:
-                - Database Table Dat NOT Schema Description (Relationships, key fields) keep it short.
+                - Database Table Data NOT Schema Description (Relationships, key fields) keep it short.
                 - API Architecture (REST/GraphQL endpoints logic) keep it short nut full.
                 - Authentication Strategy (JWT, OAuth details) short.
                 - Security measures, very consise.
@@ -265,7 +265,7 @@ class AIService:
                 - Critical Libraries list.
             """,
             'lifecycle': """
-                TASK: Write the 'Phase 8: Lifecycle'.
+                TASK: Write the 'Last Lifecycle'.
                 CONTENT:
                 - Testing Strategy (Unit vs E2E).
                 - Deployment Pipeline (CI/CD suggestions).

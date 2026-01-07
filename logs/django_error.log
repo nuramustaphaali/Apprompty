@@ -708,3 +708,69 @@ Traceback (most recent call last):
            ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
 django.db.utils.OperationalError: no such column: projects_project.docs_data
 ERROR 2026-01-06 05:54:04,263 log "GET /projects/dashboard/ HTTP/1.1" 500 143219
+ERROR 2026-01-06 06:21:13,041 log Invalid HTTP_HOST header: '10.125.152.73:8000'. You may need to add '10.125.152.73' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\utils\deprecation.py", line 308, in __call__
+    response = self.process_request(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\http\request.py", line 205, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '10.125.152.73:8000'. You may need to add '10.125.152.73' to ALLOWED_HOSTS.
+ERROR 2026-01-06 06:21:14,738 log Invalid HTTP_HOST header: '10.125.152.73:8000'. You may need to add '10.125.152.73' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\utils\deprecation.py", line 308, in __call__
+    response = self.process_request(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\http\request.py", line 205, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '10.125.152.73:8000'. You may need to add '10.125.152.73' to ALLOWED_HOSTS.
+ERROR 2026-01-06 06:24:13,404 log Invalid HTTP_HOST header: '10.125.152.73:8000'. You may need to add '10.125.152.73' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\utils\deprecation.py", line 308, in __call__
+    response = self.process_request(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\http\request.py", line 205, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '10.125.152.73:8000'. You may need to add '10.125.152.73' to ALLOWED_HOSTS.
+ERROR 2026-01-06 06:24:16,411 log Invalid HTTP_HOST header: '10.125.152.73:8000'. You may need to add '10.125.152.73' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\utils\deprecation.py", line 308, in __call__
+    response = self.process_request(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\http\request.py", line 205, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '10.125.152.73:8000'. You may need to add '10.125.152.73' to ALLOWED_HOSTS.
+ERROR 2026-01-06 06:24:57,853 log Invalid HTTP_HOST header: '10.125.152.73:8000'. You may need to add '10.125.152.73' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\utils\deprecation.py", line 308, in __call__
+    response = self.process_request(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\http\request.py", line 205, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '10.125.152.73:8000'. You may need to add '10.125.152.73' to ALLOWED_HOSTS.
+ERROR 2026-01-06 06:24:58,378 log Invalid HTTP_HOST header: '10.125.152.73:8000'. You may need to add '10.125.152.73' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\utils\deprecation.py", line 308, in __call__
+    response = self.process_request(request)
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+  File "C:\Users\Lenovo\Desktop\DjangoProjects\Apprompty\venv\Lib\site-packages\django\http\request.py", line 205, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '10.125.152.73:8000'. You may need to add '10.125.152.73' to ALLOWED_HOSTS.
